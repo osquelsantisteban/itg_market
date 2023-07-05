@@ -1,17 +1,17 @@
 <template>
     <div class="w-full flex items-center justify-between rounded-lg">
-        <button class="rounded-l-lg bg-gray-300 w-10" @click="lessCarToStore()">-</button>
-        <div class="w-10">{{ count }}</div>
-        <button class="rounded-r-lg bg-gray-300 w-10" @click="addCarToStore()">+</button>
+        <button class="rounded-l-lg bg-gray-300 w-8" @click="lessCarToStore()">-</button>
+        <div class="w-8">{{ count }}</div>
+        <button class="rounded-r-lg bg-gray-300 w-8" @click="addCarToStore()">+</button>
     </div>
 </template>
 
 <script setup>
 
-import { useCarStore } from '@/store/carStore'
+import { useCartStore } from '@/store/cartStore'
 import { defineProps,computed } from 'vue'
 
-const shop = useCarStore()
+const shop = useCartStore()
 const props = defineProps({
   item: Object
 })

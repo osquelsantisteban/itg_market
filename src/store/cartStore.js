@@ -1,13 +1,20 @@
 import { defineStore } from "pinia";
 
-export const useCarStore = defineStore('carStore',{
+export const useCartStore = defineStore('cartStore',{
     state:   () => {
         return {
             prod:[],
         }
     },
     getters: {
-        
+        totalProducts(state){
+            let totalProducts = 0; 
+            state.prod.forEach((el)=>{
+                console.log(el.count)
+                totalProducts += el.count
+            })
+            return totalProducts
+        }
     },
     actions: {
         addProduct(product) {

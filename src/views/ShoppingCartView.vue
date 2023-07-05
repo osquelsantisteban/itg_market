@@ -10,9 +10,9 @@
 <script setup>
 
 import MainLayout from '@/layouts/MainLayout.vue'
-import { useCarStore } from '@/store/carStore'
+import { useCartStore } from '@/store/cartStore'
 
-const shop = useCarStore()
+const shop = useCartStore()
 
 const isList = () => {
     // No hay productos seleccionados
