@@ -3,7 +3,7 @@
         <section class="grid grid-cols-1 gap-14 items-center">
             
             <section class="grid grid-cols-1 gap-8" v-for="(category,index) in categories" :key="index" >
-                <h3 class="text-red-500 text-2xl font-bold capitalize">{{ category }}</h3>
+                <h3 class="text-cyan-800 text-2xl font-bold capitalize text-left">{{ category }}</h3>
                 <swiper                
                     :modules="modules"
                     :slides-per-view="1"
@@ -15,6 +15,7 @@
                     :autoplay="{
                         delay: 3500,
                         disableOnInteraction: true,
+                        pauseOnMouseEnter: true,
                       }"
                     :navigation="true"
                     class="w-full"
@@ -36,9 +37,9 @@
                         v-for="(slideContent, index) in productList"
                         :key="index"
                         :virtualIndex="index"
-                        class="pb-5"
+                        class="pb-5 slide"
                     >
-                        <CardListTemplate :item="slideContent"/>
+                        <CardListTemplate :item="slideContent" :style="{transitionDelay: `${index * 0.8}s` }"/>
                     </swiper-slide>
                 </swiper>
 

@@ -24,7 +24,27 @@ const routes = [
     path: '/cart',
     name: 'ShoppingCart',
     component: () => import (/* webpackChunkName: "shopping_cart" */ '@/views/ShoppingCartView.vue')
-  }
+  },
+  // Booking
+  {
+    path: '/booking',
+    name: 'Booking',
+    component: () => import (/* webpackChunkName: "booking" */ '@/views/BookingView.vue')
+    //vista protegida
+  },
+  // Booking Detail
+  {
+    path: '/booking/:keyword',
+    name: 'BookingDetail',
+    component: () => import (/* webpackChunkName: "booking_detail" */ '@/views/BookingDetailView.vue')
+    //vista protegida
+  },
+  // Not Found
+  {
+    path: '/not-found',
+    name: 'NotFound',
+    component: () => import (/* webpackChunkName: "not_found" */ '@/views/NotFoundView.vue')
+  },
 ]
 
 const router = createRouter({
