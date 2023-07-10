@@ -3,7 +3,11 @@
         <section class="grid grid-cols-1 gap-14 items-center">
             
             <section class="grid grid-cols-1 gap-8" v-for="(category,index) in categories" :key="index" >
-                <h3 class="text-cyan-800 text-2xl font-bold capitalize text-left">{{ category }}</h3>
+
+                <!-- Link to Category -->
+                <router-link :to="{name: 'ListProduct',params: { keyword: category }}" ><h3 class="text-cyan-800 text-2xl font-bold capitalize text-left">{{ category }}</h3></router-link>
+
+                <!-- Carrusel -->                
                 <swiper                
                     :modules="modules"
                     :slides-per-view="1"

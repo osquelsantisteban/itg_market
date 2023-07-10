@@ -12,7 +12,7 @@
             <div class="flex w-full justify-end pr-8"><h4 class="text-cyan-800 text-lg">${{ props.item.price}}</h4></div>
             <div class="flex px-2 gap-4 justify-between w-full">
                 <btn-add-less :item="props.item"/>
-                <button class="bg-yellow-400 px-5 py-2 rounded-lg text-gray-800" @click="navigateToCart()">Añadir</button>
+                <button class="bg-amber-400 px-5 py-2 rounded-lg text-gray-800" @click="navigateToCart()">Añadir</button>
             </div>
         </div>
     </section>

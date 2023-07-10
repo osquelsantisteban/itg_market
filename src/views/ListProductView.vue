@@ -1,28 +1,31 @@
 <template>
     <MainLayout>
-        Productos en el Carrito - {{ cart.totalProducts }}
-        <section class="grid grid-cols-3 gap-14 align-middle">
-            <aside class="bg-gray-400">
-                filtro de precio
-                <router-link 
-                    :to="{name: 'ListProduct', params: { keyword: item }}" 
-                    v-for="(item, index) in categories" 
-                    :key="index" 
-                    v-text="item"
-                    class="block"
-                >
-                </router-link>
+        
+        <section class="flex gap-10 relative">
+            <!-- Panel Lateral -->
+            <aside class="bg-gray-400 h-[80vh] sticky top-10 left-0 w-4/12">
+                <div class="">
+                    filtro de precio
+                    <router-link 
+                        :to="{name: 'ListProduct', params: { keyword: item }}" 
+                        v-for="(item, index) in categories" 
+                        :key="index" 
+                        v-text="item"
+                        class="block"
+                    >
+                    </router-link>
+                </div>
             </aside>
-            <section class="grid grid-cols-1 gap-8 col-span-2">                
-                <h3 class="text-red-500 text-2xl capitalize" v-if="category">{{ category }}</h3>
+            <!-- Section de Productos -->
+            <section class="flex flex-col flex-1 gap-8">                
+                <h3 class="text-cyan-800 text-2xl capitalize" v-if="category">{{ category }}</h3>
                 <div class="flex justify-end"><select class="w-24"><option value="">precio</option><option value="">más populares</option></select></div>
                 <section class="grid grid-cols-2 md:grid-cols-3 gap-5  justify-items-center">
                     <CardListTemplate  v-for="(item, index) in productList" :key="index" :item="item" class=""/>
                 </section>
-
-
             </section>
         </section>
+        
     </MainLayout>
 </template>
 
@@ -33,7 +36,7 @@ import MainLayout from '@/layouts/MainLayout.vue'
 import CardListTemplate from '@/components/CardListTemplate.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
-import { useCartStore } from '@/store/cartStore'
+// import { useCartStore } from '@/store/cartStore'
 
 const route = useRoute()
 const category = computed(() => route.params.keyword)
@@ -54,7 +57,7 @@ const productList = [
     {id: 12,name: 'title12', price: 123, src: require('@/assets/images/1.jpeg')},
     {id: 13,name: 'title13', price: 123, src: require('@/assets/images/1.jpeg')}]
 
-const cart = useCartStore()
+// const cart = useCartStore()
 
 
 
@@ -62,4 +65,7 @@ const cart = useCartStore()
 
 
 <style scoped>
+.height_aside{
+
+}
 </style>
