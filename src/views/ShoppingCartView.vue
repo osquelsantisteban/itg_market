@@ -2,7 +2,6 @@
     <MainLayout>
         <div v-if="cart.totalProducts === 0 && !isClear" class="flex w-full gap-5">
             <div class="flex w-9/12">No hay productos</div>
-            {{ isClear }}
             <div class="w-3/12">
                 <PanelCart />
             </div>            
@@ -44,7 +43,7 @@ const clearCart = async () => {
 
 <style scoped>
 .style-remove-all {
-    transition: opacity 1.5s ease-out;
+    transition: opacity 0.5s ease-out;
     opacity: 0;
   }
 </style>
