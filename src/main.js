@@ -4,6 +4,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
+import '@fortawesome/fontawesome-free/css/all.css'
 import './assets/styles/main.css'
 
 const pinia = createPinia()
