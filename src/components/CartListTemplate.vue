@@ -80,7 +80,7 @@ console.log(removeProduct)
 </script>
 <style scoped>
 .style-remove {
-    transition: opacity 1s ease-in-out;
+    transition: opacity 0.5s ease-out;
     opacity: 0;
   }
   
