@@ -28,8 +28,8 @@
                     <div class="flex flex-col px-2 gap-8 justify-start mb-10">
 
                         <!-- Caracteristicas -->
-                        <div class="flex flex-col gap-5">
-                            <router-link :to="{name: 'ListProduct',params: { category: product.category}}" class="bg-amber-400 text-gray-800 px-5 py-2 rounded-lg w-32" >{{ product.category }}</router-link>
+                        <div class="flex gap-5">
+                            <router-link :to="{name: 'ListProduct',params: { category: product.category}}" class="text-sm text-amber-800 bg-amber-200 px-3 py-2 rounded-lg my-5" >{{ product.category }}</router-link>
                         </div>
                             
                         <!-- Not Available -->
