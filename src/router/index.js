@@ -25,6 +25,12 @@ const routes = [
     name: 'ShoppingCart',
     component: () => import (/* webpackChunkName: "shopping_cart" */ '@/views/ShoppingCartView.vue')
   },
+  // Buy Form
+  {
+    path: '/buyform',
+    name: 'BuyForm',
+    component: () => import (/* webpackChunkName: "shopping_cart" */ '@/views/BuyFormView.vue')
+  },
   // Booking
   {
     path: '/booking',
