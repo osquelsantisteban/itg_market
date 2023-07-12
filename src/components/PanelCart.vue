@@ -1,9 +1,9 @@
 <template>
     <div class="flex flex-col w-full rounded-lg border border-gray-300 gap-5 items-center p-5 pb-10">
         Subtotal: {{ cart.totalPrice }}
-        <button class="bg-cyan-800 rounded-lg text-white w-44 py-2" @click="clearCart()">Vaciar</button>
-        <button class="rounded-lg text-gray-800 bg-amber-400 w-44 py-2" @click="goBack()">Seguir</button><!-- TODO Link to history back @click="" -->
-        <button class="rounded-lg text-gray-800 bg-amber-400 w-44  py-2" >Pagar</button><!-- TODO Link to buyView @click="" -->
+        <button class="btn-clear" @click="clearCart()">Vaciar</button>
+        <button class="btn-go-back" @click="goBack()">Seguir</button><!-- TODO Link to history back @click="" -->
+        <button class="btn-buy" >Pagar</button><!-- TODO Link to buyView @click="" -->
     </div>
 </template>
 
@@ -26,3 +26,12 @@ const goBack = () => {
 }
 
 </script>
+<style scoped>
+.btn-go-back,.btn-buy{
+    @apply px-3 py-2 bg-amber-400 text-gray-800 rounded-lg w-44 hover:bg-amber-400/80;
+}
+
+.btn-clear{
+    @apply bg-cyan-800 rounded-lg text-white w-44 py-2 px-3 hover:bg-cyan-800/80;
+}
+</style>
