@@ -6,18 +6,27 @@
                 <!-- Comprador -->
                 <div class="flex flex-col gap-5 my-2">
                     <div class="flex gap-5 w-full">
-                        <input type="text" placeholder="Nombre del comprador" 
-                            v-model="form.name_buy" 
-                            :disabled="form.isSamePerson" 
-                            class="input_form"
-                            :class="{ 'disable': form.isSamePerson ,'input_form_error': validateNameBuy}"
-                            title="Nombre solo acepta letras y espacios en blanco">
-                        <input type="text" placeholder="Apellidos del comprador" 
-                            v-model="form.last_name_buy" 
-                            :disabled="form.isSamePerson" 
-                            class="input_form"
-                            :class="{ 'disable': form.isSamePerson }"
-                            title="Apellidos solo acepta letras y espacios en blanco">
+
+                        <div class="flex flex-col flex-1">
+                            <input type="text" placeholder="Nombre del comprador" 
+                                v-model="form.name_buy" 
+                                :disabled="form.isSamePerson" 
+                                class="input_form"
+                                :class="{ 'disable': form.isSamePerson ,'input_form_error': validateNameBuy}"
+                                title="Nombre solo acepta letras y espacios en blanco">
+                            <span class="span_error">{{ errors.name_buy }}</span>
+                        </div>
+                        
+                        <div class="flex flex-col flex-1">
+                            <input type="text" placeholder="Apellidos del comprador" 
+                                v-model="form.last_name_buy" 
+                                :disabled="form.isSamePerson" 
+                                class="input_form"
+                                :class="{ 'disable': form.isSamePerson,'input_form_error': validateLastNameBuy }"
+                                title="Apellidos solo acepta letras y espacios en blanco">
+                            <span class="span_error">{{ errors.last_name_buy }}</span>                            
+                        </div>
+                        
                     </div>
                     <div class="flex gap-5 w-full">
                         <input type="text" placeholder="Email del comprador" 
@@ -69,6 +78,7 @@ import { ref,computed,/*watch ,defineExpose */ } from 'vue';
 import useFormValidation  from '@/composables/validation'
 
 const { validateOnlyText, validateEmail } = useFormValidation()
+const errors = ref({})
 
 const form = ref({
     // Comprador
@@ -86,7 +96,6 @@ const form = ref({
     postal_code_receiver: '',
 })
 
-
 const disableIsSamePerson = () => {
     if (!form.value.isSamePerson) {
         form.value.name_buy = null
@@ -96,54 +105,19 @@ const disableIsSamePerson = () => {
     }
 }
 
-const errors = ref({})
-
 const validateField = (fieldName, validator, errorMessage) => {
   if (!validator(form.value[fieldName]) && form.value[fieldName] !== '') {
     errors.value[fieldName] = errorMessage
     return true
   }
+  errors.value[fieldName] = ''
   return false
 }
 
-let validateNameBuy = computed(() => validateField('name_buy', validateOnlyText, 'Name is not valid'));
-let validateEmailBuy = computed(() => validateField('email_buy', validateEmail, 'Email is not valid'));
+let validateNameBuy     = computed(() => validateField('name_buy', validateOnlyText, 'El nombre no es válido'));
+let validateLastNameBuy = computed(() => validateField('last_name_buy', validateOnlyText, 'El apellido no es válido'));
+let validateEmailBuy    = computed(() => validateField('email_buy', validateEmail, 'El email no es válido'));
 
-/* watch(form, () => {
-  errors.value = {}
-  if (!validateNameBuy.value) {
-    errors.value.name_buy = 'Name is not valid'
-  }
-  if (!validateEmailBuy.value) {
-    errors.value.email_buy = 'Email is not valid'
-  }
-}) */
-
-
-// const validateNameBuy = computed(() => validateField('name_buy', validateOnlyText, 'Name is not valid'))
-// const validateEmailBuy = computed(() => validateField('email_buy', validateEmail, 'Email is not valid'))
-
-// defineExpose({
-//   form,
-//   errors,
-//   validateNameBuy,
-//   validateEmailBuy
-// })
-/* const validateNameBuy = () => {
-  if (!validateOnlyText(form.value.name_buy) && form.value.name_buy !== '') {
-    errors.value.name = 'Name is not valid'
-    return true
-  }
-  return false
-}
-
-const validateEmailBuy = () => {    
-  if (!validateEmail(form.value.email_buy) && form.value.email_buy !== '') {
-    errors.value.email = 'Email is not valid'
-    return true
-  }
-  return false
-} */
 
 </script>
 
@@ -169,4 +143,9 @@ const validateEmailBuy = () => {
 
 .disable {
     @apply bg-gray-300 text-gray-400;
-}</style>
+}
+
+.span_error{
+    @apply text-red-500 text-sm;
+}
+</style>
