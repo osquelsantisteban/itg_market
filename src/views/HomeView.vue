@@ -1,7 +1,7 @@
 <template>
     <MainLayout>
         <section class="grid grid-cols-1 gap-14 items-center">
-            
+           
             <section class="grid grid-cols-1 gap-8" v-for="(category,index) in categories" :key="index" >
 
                 <!-- Link to Category -->
