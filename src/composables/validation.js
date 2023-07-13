@@ -4,6 +4,18 @@ export default function useFormValidation() {
     return pattern.test(value);
   };
 
+  const validateOnlyInteger = (value) => {
+    let pattern = /^[0-9\s]+$/;
+    return pattern.test(value);
+  };
+
+  const validatePhone = (value) => {
+      let pattern1 = /^\+?[1-9]\d{1,14}$/;
+      let pattern2 = /^\+\d{1,2}\s?\(\d{3}\)\s?\d{3}-\d{4}$/;    
+    return pattern1.test(value) || pattern2.test(value);
+  };
+
+
   const validateEmail = (value) => {
     let pattern = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
     return pattern.test(value);
@@ -11,6 +23,8 @@ export default function useFormValidation() {
 
   return {
     validateOnlyText,
+    validateOnlyInteger,
+    validatePhone,
     validateEmail,
   };
 }
