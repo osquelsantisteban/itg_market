@@ -2,12 +2,13 @@
     Productos en el Carrito - {{ cart.totalProducts }}
 
     <!-- <ModalLocation v-if="showModal" @close="showModal = false" />         -->
-    <div class="flex gap-5">
+    <!-- <div class="flex gap-5">
         <button @click="changeLanguage('es')" class="bg-cyan-800 text-white hover:bg-cyan-800/80">Español</button>
         <button @click="changeLanguage('en')" class="bg-cyan-800 text-white hover:bg-cyan-800/80">English</button>
-    </div>
+    </div> 
+    <p>{{ $t('message.hello') }}</p>
+    -->
 
-    <p>{{ $t('hello') }}</p>
 
     <div class="grid grid-cols-1 w-10/12 items-center mx-auto">        
         <slot ></slot>
@@ -16,12 +17,9 @@
 
 <script setup>
 // import { ref } from 'vue';
-import { useI18n } from 'vue-i18n'
 import { useCartStore } from '@/store/cartStore'
-// import { ref, onMounted } from 'vue';
 // import ModalLocation from '@/components/ModalLocation.vue';
 
-const { locale } = useI18n()
 
 
 const cart = useCartStore()
@@ -32,9 +30,12 @@ const cart = useCartStore()
 // });
 
 
-const changeLanguage = (lang) => {
-  locale.value = lang
-}
+// I18n
+// import { useI18n } from 'vue-i18n'
+// const { locale } = useI18n()
+// const changeLanguage = (lang) => {
+//   locale.value = lang
+// }
 
 </script>
 

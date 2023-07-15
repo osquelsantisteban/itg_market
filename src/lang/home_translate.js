@@ -1,9 +1,12 @@
-export default {
-    en: {
-      hello: 'Hello'
-    },
-    es: {
-      hello: 'Hola'
+export const messages = {
+  en: {
+    message: {
+      hello: 'hi world'
+    }
+  },
+  es: {
+    message: {
+      hello: 'hola mundo'
     }
   }
-  
+}

@@ -5,15 +5,15 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import { createI18n } from 'vue-i18n'
-import messages from './lang/home_translate'
-// import { home_translate } from './lang/home_translate'
+import { messages } from './lang/home_translate'
 
 import '@fortawesome/fontawesome-free/css/all.css'
 import './assets/styles/main.css'
 
+//Opctions
 const i18n = createI18n({
-	//Opctions
-	locale: 'es',
+	legacy: false,
+    locale: 'es',
 	fallbackLocale: 'es',
     messages
 })
