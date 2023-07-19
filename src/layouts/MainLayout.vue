@@ -9,6 +9,13 @@
     <p>{{ $t('message.hello') }}</p>
     -->
 
+    <!-- Cart -->
+    <router-link :to="{name: 'ShoppingCart'}" class=" ">
+        <i class="fa fa-shopping-cart fa-2x text-cyan-800 relative"><span class="absolute top-[2px] left-4 text-white text-center text-xs">{{ cart.totalProducts }}</span></i>
+    </router-link>
+    
+    <!-- Bookings -->
+    <router-link :to="{name: 'Bookings'}" class=" ">Pedidos</router-link>
 
     <div class="grid grid-cols-1 w-10/12 items-center mx-auto">        
         <slot ></slot>

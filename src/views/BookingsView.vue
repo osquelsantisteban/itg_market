@@ -4,7 +4,8 @@
             <div class="flex">No hay pedidos</div>            
         </div>
         <div v-else class="flex w-full gap-5">
-            <div class="flex flex-col gap-5">
+            <div class="flex flex-col gap-5 w-full">
+                <BookingListTemplate :item="booking"/>
                 <BookingListTemplate :item="booking"/>
             </div>
         </div>

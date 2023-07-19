@@ -31,11 +31,11 @@ const routes = [
     name: 'BuyForm',
     component: () => import (/* webpackChunkName: "shopping_cart" */ '@/views/BuyFormView.vue')
   },
-  // Booking
+  // Booking List
   {
-    path: '/booking',
-    name: 'Booking',
-    component: () => import (/* webpackChunkName: "booking" */ '@/views/BookingView.vue')
+    path: '/bookings',
+    name: 'Bookings',
+    component: () => import (/* webpackChunkName: "bookings" */ '@/views/BookingsView.vue')
     //vista protegida
   },
   // Booking Detail
@@ -56,6 +56,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+// Redirigir a NotFound sino existe la ruta
+router.beforeEach((to, from, next) => {  
+  if(to.matched.length === 0)
+    next({name: 'NotFound'})
+  else
+    next()
 })
 
 export default router
