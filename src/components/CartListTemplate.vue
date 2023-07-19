@@ -13,7 +13,12 @@
             <!-- Description -->
             <div class="flex justify-between mt-2 mb-3">
                 <p class="text-justify w-9/12 text-gray-800">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius eligendi amet nobis veritatis. Ab delectus ad vero sed repudiandae placeat quasi! Sequi, eligendi earum. Hic expedita aspernatur odio quasi? Ipsa?</p>
-                <span class="mr-10 text-2xl text-gray-800">${{ prodPrice(props.item.name) }}</span>
+
+                <span class="mr-10 text-2xl text-gray-800" 
+                    :class="{'scale-110 transition-transform animate-spin': animationPrice}"
+                    >
+                    ${{ prodPrice(props.item.name) }}
+                </span>
             </div>
 
             <!-- Category -->
@@ -29,7 +34,7 @@
                     <!-- Product -->
                     <div class="flex flex-col">
                         <h4 class="text-amber-500 text-lg">${{ props.item.price}}</h4>
-                        <btn-add-less :item="props.item"/>
+                        <btn-add-less :item="props.item" @updCart="handleUpdCart"/>
                     </div>
                     <!-- Eliminar -->
                     <button class="bg-cyan-800 px-5 py-2 rounded-lg text-white" @click="removeProduct(props.item.name)">Eliminar</button>
@@ -51,7 +56,7 @@ const router = useRouter()
 const cart = useCartStore()
 const { prodPrice } = storeToRefs(cart)
 const isRemoving = ref(false)
-
+const animationPrice = ref(false)
 const props = defineProps({
   item: Object
 })
@@ -75,7 +80,12 @@ const removeProduct = (prodId) => {
   }, 1000)
 }
 
-console.log(removeProduct)
+const handleUpdCart = () => {
+    animationPrice.value = true
+    setTimeout(()=>{
+        animationPrice.value = false
+    },500)
+}
 
 </script>
 <style scoped>
