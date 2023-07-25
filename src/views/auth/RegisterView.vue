@@ -18,7 +18,7 @@
                     placeholder="Nombre">
 
                     <input class="input_form" 
-                    v-model="formLogin.last_rname"
+                    v-model="formLogin.last_name"
                     type="text"
                     placeholder="Apellidos">
                 </div>
@@ -44,7 +44,7 @@
                 <!-- Confirmacion Password -->
                 <input class="input_form"
                 type="password"
-                v-model="formLogin.comfirm_password"          
+                v-model="formLogin.confirm_password"          
                 placeholder="Confirme la contraseña">
             </div>              
 
@@ -67,7 +67,8 @@
             
             <!-- Enviar -->
             <div class="flex items-center justify-end mb-5 w-full">                
-                <button class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded" type="button">
+                <button class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded" type="button"
+                @click="sendRequest()">
                 Enviar
                 </button>
             </div>
@@ -80,25 +81,31 @@
   
   <script setup>
   import MainLayout from '@/layouts/MainLayout.vue'
-  import { ref,onBeforeMount } from "vue";
-  import {useAuthStore} from "@/store/authStore"
-  const authStore = useAuthStore();
+  import { ref } from "vue";
+//   import {useAuthStore} from "@/store/authStore"
+//   const authStore = useAuthStore();
   
   const formLogin = ref({
-    username: '',
+    name: '',
     last_name: '',
+    email: '',
     password: '',
-    comfirm_password: '',
+    confirm_password: '',
+    address: '',
+    phone: '',
   });
   
-  onBeforeMount(async () => {
-    await authStore.getBearerToken();  
-    // console.log(authStore.bearer_token)
-    
-    // dir.value       = await footerData.dir
-    // phones.value    = await footerData.phones
-    // copyright.value = await footerData.copyright
+  const sendRequest = (async () => {
+    let msg = 
+    `nombre ${formLogin.value.name}
+     email ${formLogin.value.email}
+     password ${formLogin.value.password}
+     confirm_password ${formLogin.value.confirm_password}
+     address ${formLogin.value.address}
+     phone ${formLogin.value.phone}`
+    alert(msg)    
   })
+
   </script>
   <style scoped>
   .input_form {

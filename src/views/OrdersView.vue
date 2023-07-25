@@ -5,8 +5,8 @@
         </div>
         <div v-else class="flex w-full gap-5">
             <div class="flex flex-col gap-5 w-full">
-                <BookingListTemplate :item="booking"/>
-                <BookingListTemplate :item="booking"/>
+                <OrdersgListTemplate :item="orders"/>
+                <OrdersListTemplate :item="orders"/>
             </div>
         </div>
     </MainLayout>
@@ -15,12 +15,12 @@
 <script setup>
 
 import MainLayout from '@/layouts/MainLayout.vue'
-import BookingListTemplate from '@/components/BookingListTemplate.vue'
+import OrdersListTemplate from '@/components/OrdersListTemplate.vue'
 // import { useCartStore } from '@/store/cartStore'
 
 // const cart = useCartStore()
 
-const booking = [
+const orders = [
     {id: 1, fecha: '06/07/2023', estado_entrega: 'entregado', precio: 333},
     {id: 2, fecha: '06/07/2023', estado_entrega: 'en proceso', precio: 333},
     {id: 3, fecha: '06/07/2023', estado_entrega: 'transportandose', precio: 333},

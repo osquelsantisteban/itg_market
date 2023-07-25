@@ -8,20 +8,15 @@
       </figure>
 
       <div class="flex flex-col items-center justify-center w-1/2">
+        
         <div class="mb-5 w-8/12">
-          <label class="block text-gray-800 text-sm font-bold mb-2" for="username">
-            Usuario
-          </label>
-          <input class="input_form" 
-            id="username"
+          <input class="input_form"            
             v-model="formLogin.username"
             type="text"
             placeholder="Nombre de usuario">
         </div>
+
         <div class="mb-5 w-8/12">
-          <label class="block text-gray-800 text-sm font-bold mb-2" for="password">
-            Password
-          </label>
           <input class="input_form"
             id="password" 
             type="password"
@@ -29,6 +24,7 @@
             placeholder="Escriba la clave">
           <p class="text-red-600 text-xs italic">Please choose a password.</p>
         </div>
+
         <div class="flex items-center justify-between mb-5 w-8/12">
           <a class="inline-block align-baseline font-bold text-sm text-sky-800 hover:text-sky-800/80" href="#">
             Olvidé la contraseña?
@@ -37,6 +33,19 @@
             Enviar
           </button>
         </div>
+
+        <!-- OAuth -->
+        <div class="flex flex-col gap-3 items-center justify-between mb-5 w-8/12">
+          <button class="flex items-center justify-center w-full px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50">
+            <i class="fab fa-google mr-2"></i>
+            Iniciar sesión con Google
+          </button>
+          <button class="flex items-center justify-center w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+            <i class="fab fa-facebook mr-2"></i>
+            Iniciar sesión con Facebook
+          </button>
+        </div>
+
         <button class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded w-8/12" type="button">
           Registrarse
         </button>

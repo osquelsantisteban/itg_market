@@ -34,8 +34,8 @@
     <!-- Lang -->
     <div class="flex items-center gap-5">
       <i class="fa fa-user text-white fa-lg"></i>
-      <!-- Bookings -->
-      <!-- <router-link :to="{name: 'Bookings'}" class=" ">Pedidos</router-link> -->
+      <!-- Orders -->
+      <!-- <router-link :to="{name: 'Orders'}" class=" ">Pedidos</router-link> -->
       <!-- Cart -->
       <router-link :to="{name: 'ShoppingCart'}" class=" ">
           <i class="fa fa-shopping-cart fa-lg text-white relative"><span class="absolute -top-1 left-[10px] text-sky-800 text-center text-[8px]">{{ cart.totalProducts }}</span></i>

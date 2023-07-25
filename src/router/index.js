@@ -33,14 +33,23 @@ const routes = [
     name: 'BuyForm',
     component: () => import (/* webpackChunkName: "shopping_cart" */ '@/views/BuyFormView.vue')
   },
-  // Booking List
+  // Orders List
   {
-    path: '/bookings',
-    name: 'Bookings',
-    component: () => import (/* webpackChunkName: "bookings" */ '@/views/BookingsView.vue'),
+    path: '/orders',
+    name: 'Orders',
+    component: () => import (/* webpackChunkName: "orders" */ '@/views/OrdersView.vue'),
     //vista protegida
     meta: {
-      login: true
+      login: false
+    }
+  },
+  // Dashboard
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import (/* webpackChunkName: "dashboard" */ '@/views/auth/DashboardView.vue'),    
+    meta: {
+      login: false
     }
   },
   // Login
@@ -61,13 +70,15 @@ const routes = [
       login: false
     }
   },
-  // Booking Detail
-  // {
-  //   path: '/booking/:keyword',
-  //   name: 'BookingDetail',
-  //   component: () => import (/* webpackChunkName: "booking_detail" */ '@/views/BookingDetailView.vue')
-  //   //vista protegida
-  // },
+  // Reset Password
+  {
+    path: '/reset-password',
+    name: 'ResetPassword',
+    component: () => import (/* webpackChunkName: "reset_password" */ '@/views/auth/ResetPasswordView.vue'),    
+    meta: {
+      login: false
+    }
+  },  
   // Not Found
   {
     path: '/not-found',
