@@ -32,6 +32,6 @@ const goBack = () => {
 }
 
 .btn-clear{
-    @apply bg-cyan-800 rounded-lg text-white w-44 py-2 px-3 hover:bg-cyan-800/80;
+    @apply bg-sky-800 rounded-lg text-white w-44 py-2 px-3 hover:bg-sky-800/80;
 }
 </style>

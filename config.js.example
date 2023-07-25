@@ -1,0 +1,16 @@
+const API = ''
+const GALLERY = "https://iristravel.s3.us-east-2.amazonaws.com/images/"
+
+let CONFIG = {
+    baseURL: `${API}`,
+    auth: {
+        username: '',
+        password: ''
+    }
+};
+
+export default {
+    API,
+    GALLERY,
+    CONFIG
+}

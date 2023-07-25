@@ -37,7 +37,7 @@
                         <btn-add-less :item="props.item" @updCart="handleUpdCart"/>
                     </div>
                     <!-- Eliminar -->
-                    <button class="bg-cyan-800 px-5 py-2 rounded-lg text-white" @click="removeProduct(props.item.name)">Eliminar</button>
+                    <button class="bg-sky-800 px-5 py-2 rounded-lg text-white" @click="removeProduct(props.item.name)">Eliminar</button>
                 </div>
         </div>
     </article>

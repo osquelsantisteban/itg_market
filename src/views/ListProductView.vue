@@ -18,7 +18,7 @@
             </aside>
             <!-- Section de Productos -->
             <section class="flex flex-col flex-1 gap-8">                
-                <h3 class="text-cyan-800 text-2xl capitalize" v-if="category">{{ category }}</h3>
+                <h3 class="text-sky-800 text-2xl capitalize" v-if="category">{{ category }}</h3>
                 <div class="flex justify-end"><select class="w-24"><option value="">precio</option><option value="">más populares</option></select></div>
                 <section class="grid grid-cols-2 md:grid-cols-3 gap-5  justify-items-center">
                     <CardListTemplate  v-for="(item, index) in productList" :key="index" :item="item" class=""/>

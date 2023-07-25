@@ -10,7 +10,7 @@
                 <!-- Detalles del Producto -->
                 <div class="w-5/12">
                     <!-- Title -->
-                    <h3 class="text-justify font-bold text-2xl my-10 text-cyan-800 capitalize">{{ product.name }}</h3>
+                    <h3 class="text-justify font-bold text-2xl my-10 text-sky-800 capitalize">{{ product.name }}</h3>
 
                     <!-- Price -->
                     <div class="flex gap-5 mb-10">

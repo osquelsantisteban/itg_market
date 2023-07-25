@@ -11,11 +11,14 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
+    "axios": "^1.4.0",
     "core-js": "^3.8.3",
+    "crypto-js": "^4.1.1",
     "pinia": "^2.1.4",
     "pinia-plugin-persistedstate": "^3.1.0",
     "swiper": "^10.0.3",
     "vue": "^3.2.13",
+    "vue-cookies": "^1.8.3",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.3"
   },

@@ -63,7 +63,7 @@
                 <div class="flex flex-col gap-3">
                     <div class="flex gap-2">
                         <input type="checkbox" v-model="form.isSamePerson" id="same_person" @click="disableIsSamePerson()">
-                        <label for="same_person" class="text-cyan-800">Es la misma persona</label>                        
+                        <label for="same_person" class="text-sky-800">Es la misma persona</label>                        
                     </div>
                     <div class="flex flex-col gap-5">
 
@@ -256,8 +256,8 @@ const sendToBuy = (e) => {
 }
 
 .input_form {
-    @apply flex w-full border border-gray-300 rounded-lg px-5 py-2 placeholder-gray-400 text-cyan-800
-    focus:ring-1 focus:border-cyan-600 focus:outline-none;
+    @apply flex w-full border border-gray-300 rounded-lg px-5 py-2 placeholder-gray-400 text-sky-800
+    focus:ring-1 focus:border-sky-600 focus:outline-none;
 }
 
 .input_form_error {

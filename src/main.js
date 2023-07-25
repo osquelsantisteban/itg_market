@@ -10,6 +10,9 @@ import { messages } from './lang/home_translate'
 import '@fortawesome/fontawesome-free/css/all.css'
 import './assets/styles/main.css'
 
+import VueCookies from 'vue-cookies'
+
+
 //Opctions
 const i18n = createI18n({
 	legacy: false,
@@ -26,4 +29,10 @@ app
     .use(pinia)
     .use(router)
     .use(i18n)
+    .use(VueCookies,{
+        expires: '1d',
+        secure: true,
+        httpOnly: true,
+        sameSite: 'Strict',
+    })
     .mount('#app')
