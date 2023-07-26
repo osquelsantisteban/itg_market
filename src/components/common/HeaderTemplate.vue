@@ -3,7 +3,7 @@
     
     <div class="flex items-center gap-x-10">
       <!-- Logo -->
-      <router-link :to="{name: 'Home'}" class="w-2/12 m-auto sm:m-0">
+      <router-link :to="{name: 'Home'}" class="w-2/12 m-auto sm:m-0 text-white">
         <figure class="">
           <img :src="logo_img" alt="logo">
         </figure>
@@ -33,9 +33,10 @@
     </div>
 
 
-    <!-- Lang -->
+    <!-- Iconos -->
     <div class="flex items-center gap-5">
       
+      <!-- User -->
       <router-link :to="{name: 'Dashboard'}" class="w-5"><i class="fa fa-user text-white fa-lg"></i></router-link>
       
       <!-- Cart -->
@@ -43,11 +44,13 @@
           <i class="fa fa-shopping-cart fa-lg text-white relative"><span class="absolute -top-1 left-[10px] text-sky-800 text-center text-[8px]">{{ cart.totalProducts }}</span></i>
       </router-link>
       
-      <!-- Navigation -->
+      <!-- Menu -->
       <div class="relative w-5">
         <i class="fa fa-bars text-white  fa-lg" v-show="!openMenu"  @click="openMenu = !openMenu"></i>
         <i class="fa fa-times text-white fa-lg" v-show="openMenu"   @click="openMenu = !openMenu"></i>
       </div>
+
+      <!-- Navigation -->
       <nav class="absolute top-14 right-0 transition-opacity delay-100 bg-slate-800/70 text-white" v-show="openMenu">
         <ul class="w-full py-5">
           <li>p1ssd sdkjsdsk sdjskdskjdks</li>
