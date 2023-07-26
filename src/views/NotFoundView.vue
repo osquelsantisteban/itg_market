@@ -1,15 +1,16 @@
 <template>
     <MainLayout>
-        <div>
-            detalle del producto
-        </div>
+        Not Found
     </MainLayout>
 </template>
 
 <script setup>
+
 import MainLayout from '@/layouts/MainLayout.vue'
 
 </script>
 
+
 <style scoped>
+
 </style>
