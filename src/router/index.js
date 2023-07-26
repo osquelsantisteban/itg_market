@@ -6,7 +6,7 @@ const routes = [
   // Home
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: () => import(/* webpackChunkName: "home" */ '@/views/HomeView.vue')
   },
   // ListProduct (Categories)
@@ -49,7 +49,7 @@ const routes = [
     name: 'Dashboard',
     component: () => import (/* webpackChunkName: "dashboard" */ '@/views/auth/DashboardView.vue'),    
     meta: {
-      login: false
+      login: true
     }
   },
   // Login

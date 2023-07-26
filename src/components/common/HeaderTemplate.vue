@@ -3,9 +3,11 @@
     
     <div class="flex items-center gap-x-10">
       <!-- Logo -->
-      <figure class="w-2/12 m-auto sm:m-0">
-        <img :src="logo_img" alt="logo">
-      </figure>
+      <router-link :to="{name: 'Home'}" class="w-2/12 m-auto sm:m-0">
+        <figure class="">
+          <img :src="logo_img" alt="logo">
+        </figure>
+      </router-link>
       
       <!-- Search -->
       <div class="flex w-full items-center gap-0 h-auto">
@@ -33,18 +35,26 @@
 
     <!-- Lang -->
     <div class="flex items-center gap-5">
-      <i class="fa fa-user text-white fa-lg"></i>
-      <!-- Orders -->
-      <!-- <router-link :to="{name: 'Orders'}" class=" ">Pedidos</router-link> -->
+      
+      <router-link :to="{name: 'Dashboard'}" class="w-5"><i class="fa fa-user text-white fa-lg"></i></router-link>
+      
       <!-- Cart -->
-      <router-link :to="{name: 'ShoppingCart'}" class=" ">
+      <router-link :to="{name: 'ShoppingCart'}" class="w-5">
           <i class="fa fa-shopping-cart fa-lg text-white relative"><span class="absolute -top-1 left-[10px] text-sky-800 text-center text-[8px]">{{ cart.totalProducts }}</span></i>
       </router-link>
       
       <!-- Navigation -->
-      <nav class="">
+      <div class="relative w-5">
         <i class="fa fa-bars text-white  fa-lg" v-show="!openMenu"  @click="openMenu = !openMenu"></i>
         <i class="fa fa-times text-white fa-lg" v-show="openMenu"   @click="openMenu = !openMenu"></i>
+      </div>
+      <nav class="absolute top-14 right-0 transition-opacity delay-100 bg-slate-800/70 text-white" v-show="openMenu">
+        <ul class="w-full py-5">
+          <li>p1ssd sdkjsdsk sdjskdskjdks</li>
+          <li>p2</li>
+          <li>p3</li>
+          <li>p4</li>
+        </ul>
       </nav>
     </div>
 
@@ -55,7 +65,6 @@
 import CONFIG from '../../../config.js'
 import { ref/* ,onBeforeMount */ } from "vue";
 // import {useAuthStore} from "@/store/authStore"
-// import {useAuthStore} from "@/store/authStore"
 import {useCartStore} from "@/store/cartStore"
 
 // const auth = useAuthStore();
@@ -63,7 +72,7 @@ const cart = useCartStore();
 
 // await authStore.getBearerToken();  
 
-const logo_img  = ref(CONFIG.GALLERY + "general/logo/logo-white.png")
+const logo_img = ref(CONFIG.GALLERY + "general/logo/logo-white.png")
 const openMenu = ref(false)
 
 </script>
@@ -75,5 +84,9 @@ footer .social-media p {
 
 .input_search{
   @apply flex h-full px-3 py-2 border;
+}
+
+li{
+  @apply hover:bg-slate-700/70 w-full px-5;
 }
 </style>

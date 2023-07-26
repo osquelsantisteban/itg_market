@@ -1,13 +1,18 @@
 <template>
     <MainLayout>
   
-      <section class="flex flex-col md:flex-row w-full justify-between bg-white p-5 mb-4 gap-x-10">
+      <section class="flex flex-col md:flex-row w-full justify-between bg-white p-5 mb-4 gap-10">
   
-        <figure class="w-1/2">
+        <figure class="w-full">
           <img src="http://via.placeholder.com/640x360" alt="">
         </figure>
   
-        <div class="flex flex-col items-center justify-center w-1/2">
+        <div class="flex flex-col items-center justify-center w-full">
+
+            <!-- Title -->
+            <div class="mb-5 w-full">
+                <h4>Cambiar Password</h4>
+            </div>
 
             <!-- Email -->
             <div class="mb-5 w-full">

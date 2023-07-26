@@ -55,12 +55,14 @@
       <!-- Other Links -->      
       <div class="flex flex-col order-2 md:w-2/12 md:order-1 md:text-left md:border-l-2 md:px-6 gap-4">
         <h3 class="hidden text-base uppercase font-DIN-Bold md:block">Links de interés</h3>
-        <ul class="flex flex-col text-sm lg:text-sm gap-1 text-red-900">
+        <ul class="flex flex-col text-sm lg:text-sm gap-1">
           <li><router-link :to="'/'" >Productos rebajados</router-link></li>
           <li><router-link :to="'/'" >Productos con envió gratis</router-link></li>
           <li><router-link :to="'/'" >Combos de Alimentos</router-link></li>
           <li><router-link :to="'/'" >Tarifas de entregas</router-link></li>
-          <li><router-link :to="'/'" >Tarifas de entregas</router-link></li>
+          <!-- Orders -->
+          <li><router-link :to="{name: 'Orders'}" class=" ">Mis Ordenes</router-link></li>
+          
         </ul>
       </div>
 
@@ -85,12 +87,16 @@ const direccion = ref(null)
 const phones    = ref(null)
 const copyright = ref(null)
 
-onBeforeMount(async () => {
-  
-  const footerData = await textServices.getFooter()
-  direccion.value = await footerData.direccion.description
-  phones.value    = await footerData.phones.description
-  copyright.value = await footerData.copyright.description
+onBeforeMount(async () => {  
+  try {
+    const footerData = await textServices.getFooter()
+    direccion.value = await footerData.direccion.description
+    phones.value    = await footerData.phones.description
+    copyright.value = await footerData.copyright.description
+    
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 </script>

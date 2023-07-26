@@ -1,7 +1,7 @@
 <template>
     <MainLayout>
         <div v-if="cart.totalProducts === 0 && !isClear" class="flex w-full gap-5">
-            <div class="flex w-9/12">No hay productos</div>
+            <div class="flex w-9/12 justify-center items-center"><span class="text-2xl">No hay productos</span></div>
             <div class="w-3/12">
                 <PanelCart />
             </div>            

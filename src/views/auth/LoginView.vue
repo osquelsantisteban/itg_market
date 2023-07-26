@@ -1,14 +1,17 @@
 <template>
   <MainLayout>
 
-    <section class="flex flex-col md:flex-row w-full justify-between bg-white p-5 mb-4 gap-x-10">
+    <section class="flex flex-col md:flex-row w-full justify-between bg-white p-5 mb-4 gap-10">
 
-      <figure class="w-1/2">
+      <figure class="w-full">
         <img src="http://via.placeholder.com/640x360" alt="">
       </figure>
 
-      <div class="flex flex-col items-center justify-center w-1/2">
+      <div class="flex flex-col items-center justify-center w-full">
         
+        <div class="mb-5 w-8/12">
+          <h4>Login</h4>
+        </div>
         <div class="mb-5 w-8/12">
           <input class="input_form"            
             v-model="formLogin.username"
@@ -26,9 +29,10 @@
         </div>
 
         <div class="flex items-center justify-between mb-5 w-8/12">
-          <a class="inline-block align-baseline font-bold text-sm text-sky-800 hover:text-sky-800/80" href="#">
+          <router-link :to="{name: 'ResetPassword'}" class="inline-block align-baseline font-bold text-sm text-sky-800 hover:text-sky-800/80">
             Olvidé la contraseña?
-          </a>
+          </router-link>
+          
           <button class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded" type="button">
             Enviar
           </button>
@@ -46,9 +50,10 @@
           </button>
         </div>
 
-        <button class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded w-8/12" type="button">
+        
+        <router-link :to="{name: 'Register'}" class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded w-8/12">
           Registrarse
-        </button>
+        </router-link>
       </div>
 
     </section>
