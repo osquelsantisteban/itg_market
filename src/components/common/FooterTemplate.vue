@@ -81,7 +81,7 @@ import textServices from "@/services/texts.service"
 
 const logo_img  = ref(CONFIG.GALLERY + "general/logo/logo-white.png")
 
-const direccion       = ref(null)
+const direccion = ref(null)
 const phones    = ref(null)
 const copyright = ref(null)
 

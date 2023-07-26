@@ -5,7 +5,7 @@
         </div>
         <div v-else class="flex w-full gap-5">
             <div class="flex flex-col gap-5 w-full">
-                <OrdersgListTemplate :item="orders"/>
+                <OrdersListTemplate :item="orders"/>
                 <OrdersListTemplate :item="orders"/>
             </div>
         </div>

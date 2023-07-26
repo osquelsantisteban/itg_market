@@ -40,7 +40,7 @@ const routes = [
     component: () => import (/* webpackChunkName: "orders" */ '@/views/OrdersView.vue'),
     //vista protegida
     meta: {
-      login: false
+      login: true
     }
   },
   // Dashboard
@@ -102,7 +102,7 @@ router.beforeEach((to, from, next) => {
   const isProtected = to.matched.some(route => route.meta.login)
   
   if(isProtected && !loggedIn)
-    return next({name: 'NotFound'})
+    return next({name: 'Login'})
 
   next()
 })

@@ -65,7 +65,7 @@ const props = defineProps({
 
 console.log(props.item)
 
-const isDetail = ref(true)
+const isDetail = ref(false)
 
 /* const openDetail = () => {
     isDetail.value = true
