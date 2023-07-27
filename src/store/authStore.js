@@ -33,7 +33,7 @@ export const useAuthStore = defineStore('authStore',{
                 console.log(params)
                 // password = this.encryptPass(password)
                 // let encodedPassword = encodeURIComponent(password);
-                let encodedPassword = 'U2FsdGVkX1+bb/QtjUi7gVoqO1JlH0ekVIXdU3+6foRVjkyUwm9Iw6Qp5EW2xxdi'
+                let encodedPassword = 'U2FsdGVkX19nKhj+FoOALeZYUcure2ZAUHKlkPkGoaEycIUupvFYSdUrIsknolqU'
                 let email = 'manager@iristravelgroup.com'
                 let url = `/clients/login?email=${email}&password=${encodedPassword}`
                 

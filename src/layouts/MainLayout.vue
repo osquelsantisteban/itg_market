@@ -1,8 +1,9 @@
 <template>    
     <div class="flex flex-col min-h-screen">
-        <Header />
+        <!-- Header -->
+        <component :is="headerComponent"/>
         
-        <main class="flex-grow w-10/12 mx-auto">           
+        <main class="flex-grow w-10/12 mx-auto mt-20">           
                 <slot ></slot>
         </main>
         
@@ -11,33 +12,27 @@
 </template>
 
 <script setup>
-// import { ref } from 'vue';
-// import ModalLocation from '@/components/ModalLocation.vue';
-// import ModalLogin from '@/components/auth/ModalLogin.vue';
-// import { useCartStore } from '@/store/cartStore'
-import Header from '@/components/common/HeaderTemplate.vue'
+import { ref } from 'vue';
+import HeaderDesktopTemplate from '@/components/common/HeaderDesktopTemplate.vue'
+import HeaderMovilTemplate from '@/components/common/HeaderMovilTemplate.vue'
 import Footer from '@/components/common/FooterTemplate.vue';
 
+const detectDeviceType = () => {
+    const userAgent = navigator.userAgent;
+    const isMobile = !!userAgent.match(/iPhone|iPad|iPod|Android/i);
+    const isTablet = !!userAgent.match(/iPad/i);
+    const pointBreak = window.matchMedia('(min-width: 630px)').matches;
+    const isDesktop = !isMobile && !isTablet && pointBreak;
+    
+    return isDesktop ? 'desktop' : isTablet ? 'tablet' : 'mobile';
+}
+  
+const isMovil = () => {
+    if(detectDeviceType() === 'mobile')
+        return true;
+    return false; 
+}
 
-// const cart = useCartStore()
-// const loginModal = ref(false)
-
-
-// const showModal = ref(false);
-
-// onMounted(() => {
-//   showModal.value = true;
-// });
-
-
-// I18n
-// import { useI18n } from 'vue-i18n'
-// const { locale } = useI18n()
-// const changeLanguage = (lang) => {
-//   locale.value = lang
-// }
+const headerComponent = ref(isMovil() ? HeaderMovilTemplate : HeaderDesktopTemplate);
 
 </script>
-
-<style scoped>
-</style>

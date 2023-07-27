@@ -1,16 +1,16 @@
 <template>
-  <header class="flex items-center justify-between w-full bg-sky-800 px-5 py-2 mb-5">
+  <header class="fixed z-40 flex items-center justify-between w-full bg-sky-800 px-5 py-2 mb-5">
     
-    <div class="flex items-center gap-x-10">
+    <div class="flex md:items-center md:gap-x-10">
       <!-- Logo -->
-      <router-link :to="{name: 'Home'}" class="w-2/12 m-auto sm:m-0 text-white">
+      <router-link :to="{name: 'Home'}" class="w-2/12 m-0 text-white">
         <figure class="">
           <img :src="logo_img" alt="logo">
         </figure>
       </router-link>
       
       <!-- Search -->
-      <div class="flex w-full items-center gap-0 h-auto">
+      <div class="bg-sky-800 mb-4 md:mb-0 flex w-full items-center gap-0 h-auto">
         <select name=""  class="w-20 h-10 bg-white border-2 border-amber-400 px-3 py-1 rounded-l-lg">
           <option value="" class="">Todos</option>
           <option value="" class="">Categorias</option>
