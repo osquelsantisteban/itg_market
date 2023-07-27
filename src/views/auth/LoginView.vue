@@ -9,17 +9,17 @@
 
       <div class="flex flex-col items-center justify-center w-full">
         
-        <div class="mb-5 w-8/12">
+        <div class="mb-5 w-full md:w-8/12">
           <h4>Login</h4>
         </div>
-        <div class="mb-5 w-8/12">
+        <div class="mb-5 w-full md:w-8/12">
           <input class="input_form"            
             v-model="formLogin.username"
             type="text"
             placeholder="Nombre de usuario">
         </div>
 
-        <div class="mb-5 w-8/12">
+        <div class="mb-5 w-full md:w-8/12">
           <input class="input_form"
             id="password" 
             type="password"
@@ -28,7 +28,7 @@
           <p class="text-red-600 text-xs italic">Please choose a password.</p>
         </div>
 
-        <div class="flex items-center justify-between mb-5 w-8/12">
+        <div class="flex items-center justify-between mb-5 w-full md:w-8/12">
           <router-link :to="{name: 'ResetPassword'}" class="inline-block align-baseline font-bold text-sm text-sky-800 hover:text-sky-800/80">
             Olvidé la contraseña?
           </router-link>
@@ -39,7 +39,7 @@
         </div>
 
         <!-- OAuth -->
-        <div class="flex flex-col gap-3 items-center justify-between mb-5 w-8/12">
+        <div class="flex flex-col gap-3 items-center justify-between mb-5 w-full md:w-8/12">
           <button class="flex items-center justify-center w-full px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50">
             <i class="fab fa-google mr-2"></i>
             Iniciar sesión con Google
@@ -72,7 +72,11 @@ const formLogin = ref({
 });
 
 onBeforeMount(async () => {
-  await authStore.getBearerToken();  
+  try {
+    await authStore.getBearerToken();   
+  } catch (error) {
+    console.log(error)
+  }
   // console.log(authStore.bearer_token)
   
   // dir.value       = await footerData.dir
