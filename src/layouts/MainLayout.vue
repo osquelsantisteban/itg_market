@@ -1,14 +1,11 @@
 <template>    
-    <!-- <div class="flex flex-col min-h-screen"> -->
-        <!-- Header -->
         <component :is="headerComponent"/>
         
         <main class="flex-grow w-10/12 mx-auto mt-28 md:mt-20">           
                 <slot ></slot>
         </main>
         
-        <Footer />
-    <!-- </div> -->
+        <Footer />    
 </template>
 
 <script setup>
