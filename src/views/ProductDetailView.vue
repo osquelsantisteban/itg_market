@@ -1,14 +1,13 @@
 <template>
     <MainLayout>
-        <article v-if="product">
-            
-            <section class="flex">
-                <figure class="flex flex-1">
+        <article v-if="product" class="flex w-full flex-col md:flex-row">
+                        
+                <figure class="flex w-full h-auto md:w-1/2">
                     <img :src="product.src" alt="">
                 </figure>
 
                 <!-- Detalles del Producto -->
-                <div class="w-5/12">
+                <div class="w-full md:w-5/12">
                     <!-- Title -->
                     <h3 class="text-justify font-bold text-2xl my-10 text-sky-800 capitalize">{{ product.name }}</h3>
 
@@ -35,25 +34,27 @@
                         <!-- Not Available -->
                         <div class="flex gap-5 items-center" v-if="!product.available">
                             <div class="bg-gray-300 text-gray-800 px-5 py-2 rounded-lg w-60" >No Disponible</div>
-                            <div title="lo deseo">❤️</div>
+                            <button title="lo deseo"><i class="fas fa-heart text-red-500 fa-lg hover:scale-125"></i></button>
                         </div>                        
 
                         <!-- Available -->
-                        <div class="flex gap-8 justify-between" v-else>
-                            <!-- Add Less -->
+                        <div class="flex flex-col md:flex-row gap-8 justify-between items-start md:items-center" v-else>
+                            
                             <btn-add-less :item="product"/>
-                            <button class="bg-amber-400 px-5 py-2 rounded-lg text-gray-800 w-2/12" @click="navigateToCart()" v-if="product.available">Añadir</button>
+                            
                             <!-- Add Less -->
-                            <button class="bg-gray-300 px-5 py-2 rounded-lg text-gray-800 w-4/12" :disabled="!product.available" v-else >Añadir</button>
+                            <button class="bg-amber-400 px-5 py-2 rounded-lg text-gray-800 w-full md:w-4/12" @click="navigateToCart()" v-if="product.available">Añadir</button>
+                            <!-- Add Less -->
+                            <button class="bg-gray-300 px-5 py-2 rounded-lg text-gray-800 w-full md:w-4/12" :disabled="!product.available" v-else >Añadir</button>
                             <!-- Pagar -->
-                            <button class="bg-amber-400 px-5 py-2 rounded-lg text-gray-800 w-8/12">Pagar</button>
+                            <button class="bg-amber-400 px-5 py-2 rounded-lg text-gray-800 w-full md:w-8/12">Pagar</button>
                         </div>
 
                     </div>
 
 
                 </div>  
-            </section>
+            
         </article>
     </MainLayout>
 </template>
