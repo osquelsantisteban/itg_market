@@ -3,7 +3,7 @@
         <!-- Header -->
         <component :is="headerComponent"/>
         
-        <main class="flex-grow w-10/12 mx-auto mt-20">           
+        <main class="flex-grow w-10/12 mx-auto mt-28 md:mt-20">           
                 <slot ></slot>
         </main>
         
