@@ -1,5 +1,5 @@
 <template>    
-    <div class="flex flex-col min-h-screen">
+    <!-- <div class="flex flex-col min-h-screen"> -->
         <!-- Header -->
         <component :is="headerComponent"/>
         
@@ -8,7 +8,7 @@
         </main>
         
         <Footer />
-    </div>
+    <!-- </div> -->
 </template>
 
 <script setup>
