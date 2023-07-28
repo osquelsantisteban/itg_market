@@ -40,6 +40,15 @@ const routes = [
     component: () => import (/* webpackChunkName: "orders" */ '@/views/OrdersView.vue'),
     //vista protegida
     meta: {
+      login: true
+    }
+  },
+  // SearchResult
+  {
+    path: '/search/:keyword',
+    name: 'SearchResult',
+    component: () => import (/* webpackChunkName: "search" */ '@/views/SearchResultView.vue'),    
+    meta: {
       login: false
     }
   },
@@ -49,7 +58,7 @@ const routes = [
     name: 'Dashboard',
     component: () => import (/* webpackChunkName: "dashboard" */ '@/views/auth/DashboardView.vue'),    
     meta: {
-      login: false
+      login: true
     }
   },
   // Login

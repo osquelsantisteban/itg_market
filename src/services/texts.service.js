@@ -8,8 +8,7 @@ const authStore = useAuthStore();
 const TextService = {
     async getTextByKeys(params){
         try {
-            let url = `/text/by-key/${params}` 
-            console.log(url)
+            let url = `/text/by-key/${params}`            
             
             const res = await apiService.getData(url)
             

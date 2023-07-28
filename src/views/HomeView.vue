@@ -22,7 +22,7 @@
                         pauseOnMouseEnter: true,
                       }"
                     :navigation="true"
-                    class="w-full"
+                    class="w-full overflow-hidden"
                     :breakpoints="{
                         '640': {
                         slidesPerView: 2,
@@ -32,17 +32,21 @@
                         slidesPerView: 2,
                         spaceBetween: 10,
                         },
+                        '800': {
+                        slidesPerView: 3,
+                        spaceBetween: 10,
+                        },
                         '1024': {
                         slidesPerView: 3,
-                        spaceBetween: 50,
+                        spaceBetween: 10,
                         },
                         '1680': {
                         slidesPerView: 4,
-                        spaceBetween: 50,
+                        spaceBetween: 10,
                         },
                         '1920': {
                         slidesPerView: 5,
-                        spaceBetween: 50,
+                        spaceBetween: 10,
                         },
                     }">
                     <swiper-slide

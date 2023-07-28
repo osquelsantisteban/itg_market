@@ -1,6 +1,6 @@
 <template>
     <MainLayout>
-        Not Found
+        <section class="mx-auto">Not Found</section>
     </MainLayout>
 </template>
 

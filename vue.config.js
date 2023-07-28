@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: '/dist',
+  publicPath: '/',
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
