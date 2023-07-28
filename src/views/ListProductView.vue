@@ -1,26 +1,42 @@
 <template>
     <MainLayout>
         
-        <section class="flex gap-10 relative">
+        <section class="flex md:relative gap-10 flex-col md:flex-row">
             <!-- Panel Lateral -->
-            <aside class="bg-gray-400 h-[80vh] sticky top-10 left-0 w-4/12">
-                <div class="">
-                    filtro de precio
-                    <router-link 
-                        :to="{name: 'ListProduct', params: { keyword: item }}" 
-                        v-for="(item, index) in categories" 
-                        :key="index" 
-                        v-text="item"
-                        class="block"
-                    >
-                    </router-link>
+            <aside class="bg-white md:h-[80vh] md:sticky top-20 left-0 w-full md:w-4/12 mt-10 border border-sky-800 rounded-lg">
+                <div class="flex flex-col items-center gap-5 p-5">
+                    <h4 class="">Filtro de precios</h4>
+                    <button class="w-8/12 bg-amber-400 px-5 py-2 rounded-lg text-gray-800">Limpiar Filtro</button>
+                    
+                    <div class="">
+                        <div class="flex gap-4 md:w-7/12 mx-auto mb-4">
+                            <input type="number" class="input_form" placeholder="$ Min">
+                            <input type="number" class="input_form" placeholder="$ Max">
+                        </div>
+                        <button class="bg-sky-800 text-white w-7/12 rounded-lg py-2 px-3">Aplicar</button>
+                    </div>
+
+                    <h4 class="mt-5">Categorías</h4>
+                    <ul class="">
+                        <li 
+                            v-for="(item, index) in categories" 
+                            :key="index" 
+                            class="block"
+                            >
+                            <router-link 
+                                :to="{name: 'ListProduct', params: { keyword: item }}" 
+                                v-text="item"
+                            >
+                            </router-link>
+                        </li>
+                    </ul>
                 </div>
             </aside>
             <!-- Section de Productos -->
             <section class="flex flex-col flex-1 gap-8">                
                 <h3 class="text-sky-800 text-2xl capitalize" v-if="category">{{ category }}</h3>
                 <div class="flex justify-end"><select class="w-24"><option value="">precio</option><option value="">más populares</option></select></div>
-                <section class="grid grid-cols-2 md:grid-cols-3 gap-5  justify-items-center">
+                <section class="grid grid-cols-1 md:grid-cols-3 gap-5 justify-items-center">
                     <CardListTemplate  v-for="(item, index) in productList" :key="index" :item="item" class=""/>
                 </section>
             </section>
@@ -67,5 +83,10 @@ const productList = [
 <style scoped>
 .height_aside{
 
+}
+
+.input_form {
+    @apply flex w-full border border-gray-300 px-5 py-2 placeholder-gray-400 text-sky-800 rounded-lg
+    focus:ring-1 focus:border-sky-600 focus:outline-none;
 }
 </style>

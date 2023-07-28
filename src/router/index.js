@@ -40,7 +40,7 @@ const routes = [
     component: () => import (/* webpackChunkName: "orders" */ '@/views/OrdersView.vue'),
     //vista protegida
     meta: {
-      login: true
+      login: false
     }
   },
   // Dashboard
@@ -49,7 +49,7 @@ const routes = [
     name: 'Dashboard',
     component: () => import (/* webpackChunkName: "dashboard" */ '@/views/auth/DashboardView.vue'),    
     meta: {
-      login: true
+      login: false
     }
   },
   // Login

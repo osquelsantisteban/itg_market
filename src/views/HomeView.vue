@@ -29,12 +29,20 @@
                         spaceBetween: 10,
                         },
                         '768': {
-                        slidesPerView: 4,
+                        slidesPerView: 2,
                         spaceBetween: 10,
                         },
                         '1024': {
+                        slidesPerView: 3,
+                        spaceBetween: 50,
+                        },
+                        '1680': {
+                        slidesPerView: 4,
+                        spaceBetween: 50,
+                        },
+                        '1920': {
                         slidesPerView: 5,
-                        spaceBetween: 10,
+                        spaceBetween: 50,
                         },
                     }">
                     <swiper-slide

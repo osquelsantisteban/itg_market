@@ -5,7 +5,7 @@
     
       <div class="flex md:items-center md:gap-x-10">
         <!-- Logo -->
-        <router-link :to="{name: 'Home'}" class="w-2/12 m-0 text-white">
+        <router-link :to="{name: 'Home'}" class="w-4/12 m-0 text-white">
           <figure class="">
             <img :src="logo_img" alt="logo">
           </figure>
