@@ -18,7 +18,7 @@ export const useAuthStore = defineStore('authStore',{
             try{
 
                 let url = `/user-api/login`            
-                const res = await apiService.getData(url)
+                const res = await apiService.request({url})
                 if(!res.token) throw {Error: 'Error al conetarse al api y obtener el token'} 
                 this.setBearerToken(res.token);
             }catch(err){
@@ -27,19 +27,26 @@ export const useAuthStore = defineStore('authStore',{
             }
         },
 
-        async login(params){
+        async login(/* params */){
             try {
                 // let {email/* ,password */} = params
-                console.log(params)
+                // console.log(params)
                 // password = this.encryptPass(password)
                 // let encodedPassword = encodeURIComponent(password);
-                let encodedPassword = 'U2FsdGVkX19nKhj+FoOALeZYUcure2ZAUHKlkPkGoaEycIUupvFYSdUrIsknolqU'
+                let password = 'U2FsdGVkX19nKhj+FoOALeZYUcure2ZAUHKlkPkGoaEycIUupvFYSdUrIsknolqU'
                 let email = 'manager@iristravelgroup.com'
-                let url = `/clients/login?email=${email}&password=${encodedPassword}`
-                
+                let url = `/clients/login`
+                const params = {
+                    token: this.bearer_token,
+                    password,
+                    email,
+                    url,
+                }
+
                 if(!this.bearer_token) this.getBearerToken()
                 
-                const res = await apiService.getBearerData(this.bearer_token,url)
+                // const res = await apiService.getBearerData(params)
+                const res = await apiService.request(params)
                 if(!res) throw {message: 'Error en login',result: res}
                 
                 VueCookies.set('auth','hola cookie')

@@ -10,7 +10,8 @@ const TextService = {
         try {
             let url = `/text/by-key/${params}`            
             
-            const res = await apiService.getData(url)
+            // const res = await apiService.getData(url)
+            const res = await apiService.request({url})
             
             return res
 

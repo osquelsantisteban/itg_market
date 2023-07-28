@@ -5,9 +5,11 @@ const httpClient = axios.create(API.CONFIG);
 
 export const apiService = {
 
-    async request({ url, params = {}, data = {}, method = 'get', auth = false, token = '' }) {
+    async request(conf) {// { url, params = {}, data = {}, method = 'get', auth = false, token = '' }
         try {
-            const headers = { "Content-type": "application/json; charset=utf-8" };
+            
+            let {url,params,headers = {},data = {}, method = 'get', auth = false, token = ''} = conf;
+            headers = { "Content-type": "application/json; charset=utf-8" };
             
             if (auth) {
                 headers.Authorization = 'Bearer ' + token;
@@ -27,18 +29,20 @@ export const apiService = {
             throw response;
 
         } catch (error) {            
-            let errorMessage = `Error ${error.response?.status}: ${error.response?.statusText}\nURL: ${url}\nResponse data: ${JSON.stringify(error.response?.data)}`;
+            let errorMessage = `Error ${error.response?.status}: ${error.response?.statusText}\nURL: ${conf.url}\nResponse data: ${JSON.stringify(error.response?.data)}`;
             throw new Error(errorMessage);
         }
     },
 
-    getData(url, params) {
-        return this.request({ url, params, method: 'get' });
-    },
+    // getData(url, params) {
+    //     let {token,url,method,params} = options;
+    //     return this.request({ url, params, method: 'get' });
+    // },
 
-    getBearerData(token,url,method,params) {
-        return this.request({ url, params, method, auth: true, token });
-    },
+    // getBearerData(options) {
+    //     let {token,url,method,params} = options;
+    //     return this.request({ url, params, method, auth: true, token });
+    // },
     
 };
 

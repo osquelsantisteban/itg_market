@@ -33,7 +33,7 @@
             Olvidé la contraseña?
           </router-link>
           
-          <button class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded" type="button">
+          <button class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded" type="button" @click="sendRequest()">
             Enviar
           </button>
         </div>
@@ -83,6 +83,14 @@ onBeforeMount(async () => {
   // phones.value    = await footerData.phones
   // copyright.value = await footerData.copyright
 })
+
+const sendRequest = async () => {
+  try {
+    await authStore.login();   
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 <style scoped>
 .input_form {
