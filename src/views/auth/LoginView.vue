@@ -62,7 +62,7 @@
 
 <script setup>
 import MainLayout from '@/layouts/MainLayout.vue'
-import { ref,onBeforeMount } from "vue";
+import { ref/* ,onBeforeMount */ } from "vue";
 import {useAuthStore} from "@/store/authStore"
 const authStore = useAuthStore();
 
@@ -71,22 +71,24 @@ const formLogin = ref({
   password: '',
 });
 
-onBeforeMount(async () => {
+/* onBeforeMount(async () => {
   try {
     await authStore.getBearerToken();   
   } catch (error) {
     console.log(error)
   }
+  
   // console.log(authStore.bearer_token)
   
   // dir.value       = await footerData.dir
   // phones.value    = await footerData.phones
   // copyright.value = await footerData.copyright
-})
+}) */
 
 const sendRequest = async () => {
   try {
-    await authStore.login();   
+
+    await authStore.login({ email: formLogin.value.username, password: formLogin.value.password});
   } catch (error) {
     console.log(error)
   }

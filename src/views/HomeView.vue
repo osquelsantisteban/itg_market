@@ -1,7 +1,7 @@
 <template>
     <MainLayout>
         <section class="grid grid-cols-1 gap-14 items-center">
-           
+           {{ categoriesAPI }}
             <section class="grid grid-cols-1 gap-8" v-for="(category,index) in categories" :key="index" >
 
                 <!-- Link to Category -->
@@ -40,6 +40,10 @@
                         slidesPerView: 3,
                         spaceBetween: 10,
                         },
+                        '1360': {
+                        slidesPerView: 4,
+                        spaceBetween: 10,
+                        },
                         '1680': {
                         slidesPerView: 4,
                         spaceBetween: 10,
@@ -71,7 +75,9 @@ import { Autoplay,Pagination,Keyboard,Scrollbar,Navigation,Virtual } from 'swipe
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import CardListTemplate from '@/components/CardListTemplate.vue'
-
+import {ref,onBeforeMount} from 'vue'
+import { categoriesService } from '@/services/categories.service'
+import { productsService } from '@/services/products.service'
 // import { useCartStore } from '@/store/cartStore'
 
 // Import Swiper styles
@@ -99,8 +105,27 @@ const productList = [
     {id: 13,name: 'title13', price: 123, src: require('@/assets/images/1.jpeg')}]
 
 const modules = [Autoplay,Keyboard, Scrollbar, Pagination, Navigation, Virtual];
-// const cart = useCartStore()
 
+
+const categoriesAPI = ref(null)
+const productsAPI   = ref(null)
+
+onBeforeMount(async () => {
+    try {
+
+        [categoriesAPI.value, productsAPI.value] = await Promise.all([
+            categoriesService.allCategories(),
+            productsService.allProducts()
+        ]);
+
+        if(!categoriesAPI.value)    throw {msg: 'Error en obtener las categorías',error: categoriesAPI.value}
+        if(!productsAPI.value)      throw {msg: 'Error en obtener los productos' ,error: productsAPI.value}
+
+    } catch (error) {
+        console.error("Error al obtener las categorías o los productos: ", error);
+        throw error
+    }
+});
 
 </script>
 

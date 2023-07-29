@@ -27,26 +27,43 @@ export const useAuthStore = defineStore('authStore',{
             }
         },
 
-        async login(/* params */){
+        async login(options){
             try {
-                // let {email/* ,password */} = params
+                let {email/* ,password */} = options
+                
                 // console.log(params)
                 // password = this.encryptPass(password)
                 // let encodedPassword = encodeURIComponent(password);
                 let password = 'U2FsdGVkX19nKhj+FoOALeZYUcure2ZAUHKlkPkGoaEycIUupvFYSdUrIsknolqU'
-                let email = 'manager@iristravelgroup.com'
-                let url = `/clients/login`
-                const params = {
+                // let email = 'manager@iristravelgroup.com'
+                // let url = `/clients/login`
+                let url = `/clients/login?email=${email}&password=${password}`
+                
+                if(!this.bearer_token) this.getBearerToken()
+
+                /* const params = {
+                    auth: true,
                     token: this.bearer_token,
-                    password,
-                    email,
+                    headers: {
+                        password,
+                        email,
+                    },
+                    url,
+                } */
+                const params = {
+                    auth: true,
+                    token: this.bearer_token,
+                    /* headers: {
+                        password,
+                        email,
+                    }, */
                     url,
                 }
-
-                if(!this.bearer_token) this.getBearerToken()
                 
                 // const res = await apiService.getBearerData(params)
+                // console.log(params)
                 const res = await apiService.request(params)
+                console.log(res)
                 if(!res) throw {message: 'Error en login',result: res}
                 
                 VueCookies.set('auth','hola cookie')

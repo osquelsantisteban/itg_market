@@ -12,7 +12,7 @@ const TextService = {
             
             // const res = await apiService.getData(url)
             const res = await apiService.request({url})
-            
+            if(!res) throw {msg:'Error en la solicitud de textos del footer',error:res}
             return res
 
         } catch (error) {
