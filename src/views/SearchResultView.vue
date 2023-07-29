@@ -6,12 +6,12 @@
             <aside class="bg-white md:h-[80vh] md:sticky top-20 left-0 w-full md:w-4/12 mt-10 border border-sky-800 rounded-lg">
                 <div class="flex flex-col items-center gap-5 p-5">
                     <h4 class="">Filtro de precios</h4>
-                    <button class="w-8/12 bg-amber-400 px-5 py-2 rounded-lg text-gray-800">Limpiar Filtro</button>
+                    <button class="w-8/12 bg-amber-400 px-5 py-2 rounded-lg text-gray-800" @click="searchStore.clearFilter()">Limpiar Filtro</button>
                     
                     <div class="">
                         <div class="flex gap-4 md:w-7/12 mx-auto mb-4">
-                            <input type="number" class="input_form" placeholder="$ Min">
-                            <input type="number" class="input_form" placeholder="$ Max">
+                            <input type="number" class="input_form" placeholder="$ Min" v-model="searchStore.min">
+                            <input type="number" class="input_form" placeholder="$ Max" v-model="searchStore.max">
                         </div>
                         <button class="bg-sky-800 text-white w-7/12 rounded-lg py-2 px-3">Aplicar</button>
                     </div>
@@ -32,6 +32,9 @@
                     </ul>
                 </div>
             </aside>
+
+            {{ results }}
+
             <!-- Section de Productos -->
             <section class="flex flex-col flex-1 gap-8">                
                 <h3 class="text-sky-800 text-2xl" v-if="search">Resultado de búsqueda para {{ search }}</h3>
@@ -54,12 +57,15 @@ import MainLayout from '@/layouts/MainLayout.vue'
 import CardListTemplate from '@/components/CardListTemplate.vue'
 import { useRoute } from 'vue-router'
 import { ref,computed,onBeforeMount } from 'vue'
+import { useSearchStore } from '@/store/searchStore'
 // import { useCartStore } from '@/store/cartStore'
 
 const loading = ref(false)
 const route = useRoute()
 const search = computed(() => route.params.keyword)
+const searchStore = useSearchStore()
 
+const results = ref(null);
 const categories = ['category1','category2','category3','category4']
 const productList = [
     {id: 1,name: 'title1', price: 123, src: require('@/assets/images/1.jpeg')},
@@ -77,12 +83,18 @@ const productList = [
     {id: 13,name: 'title13', price: 123, src: require('@/assets/images/1.jpeg')}]
 
 // const cart = useCartStore()
-onBeforeMount(() => {
+onBeforeMount(async () => {
 
-    setTimeout(()=>{
-    loading.value = true
-    
-    },2000)
+    try {
+
+        results.value = await searchStore.getSearch()
+        if(!results.value) throw {msg: 'Error en la búsqueda',error:results.value}
+        loading.value = true
+
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
 
 })
 

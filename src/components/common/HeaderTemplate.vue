@@ -12,11 +12,11 @@
         
         <!-- Search Desktop -->
         <div class="hidden bg-sky-800 mb-0 md:flex w-9/12 md:w-full items-center gap-0 h-auto">
-          <select name=""  class="w-20 h-10 bg-white border-2 border-amber-400 px-3 py-1 rounded-l-lg">
-            <option value="" class="">Todos</option>
-            <option value="" class="">Categorias</option>
-            <option value="" class="">Productos</option>
-            <option value="" class="">Precios</option>
+          <select v-model="searchStore.type"  class="w-28 h-10 bg-white border-2 border-amber-400 px-3 py-1 rounded-l-lg">
+            <option value="all" class="">Todos</option>
+            <option value="categories" class="">Categorias</option>
+            <option value="products" class="">Productos</option>
+            <option value="prices" class="">Precios</option>
           </select>
           <input 
             type="search"          
@@ -24,9 +24,9 @@
             class="flex h-10 px-3 py-1 w-full placeholder-gray-400 text-gray-800 border-2 border-amber-400 focus:outline-none focus:border-amber-400" 
             placeholder="Buscador"
             v-model="searchStore.search"
-            @keyup.enter="searchStore.searchAll()"
+            @keyup.enter="searchStore.goToSearchView()"
           >
-          <button class="flex items-center px-3 py-2 h-10 bg-amber-400 rounded-r-lg" @click="searchStore.searchAll()"><i class="fa fa-search text-amber-800"></i></button>
+          <button class="flex items-center px-3 py-2 h-10 bg-amber-400 rounded-r-lg" @click="searchStore.goToSearchView()"><i class="fa fa-search text-amber-800"></i></button>
         </div>
 
         <!-- Lang -->
@@ -67,11 +67,11 @@
 
     <!-- Search Mobile -->
     <div class="md:hidden flex w-full bg-sky-800 p-2 items-center gap-0 h-auto">
-      <select name=""  class="w-20 h-10 bg-white border-2 border-amber-400 px-3 py-1 rounded-l-lg">
-        <option value="" class="">Todos</option>
-        <option value="" class="">Categorias</option>
-        <option value="" class="">Productos</option>
-        <option value="" class="">Precios</option>
+      <select v-model="searchStore.type" class="w-28 h-10 bg-white border-2 border-amber-400 px-3 py-1 rounded-l-lg">
+        <option value="all" class="">Todos</option>
+        <option value="categories" class="">Categorias</option>
+        <option value="products" class="">Productos</option>
+        <option value="prices" class="">Precios</option>
       </select>
       <input 
         type="search"          
@@ -79,9 +79,9 @@
         class="flex h-10 px-3 py-1 w-full placeholder-gray-400 text-gray-800 border-2 border-amber-400 focus:outline-none focus:border-amber-400" 
         placeholder="Buscador"
         v-model="searchStore.search"
-        @keyup.enter="searchStore.searchAll()"
+        @keyup.enter="searchStore.goToSearchView()"
       >
-      <button class="flex items-center px-3 py-2 h-10 bg-amber-400 rounded-r-lg" @click="searchStore.searchAll()"><i class="fa fa-search text-amber-800"></i></button>
+      <button class="flex items-center px-3 py-2 h-10 bg-amber-400 rounded-r-lg" @click="searchStore.goToSearchView()"><i class="fa fa-search text-amber-800"></i></button>
     </div>
 
   </header>

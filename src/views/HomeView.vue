@@ -118,8 +118,8 @@ onBeforeMount(async () => {
             productsService.allProducts()
         ]);
 
-        if(!categoriesAPI.value)    throw {msg: 'Error en obtener las categorías',error: categoriesAPI.value}
-        if(!productsAPI.value)      throw {msg: 'Error en obtener los productos' ,error: productsAPI.value}
+        if(!categoriesAPI.value) throw {msg: 'Error en obtener las categorías',error: categoriesAPI.value}
+        if(!productsAPI.value)   throw {msg: 'Error en obtener los productos' ,error: productsAPI.value}
 
     } catch (error) {
         console.error("Error al obtener las categorías o los productos: ", error);
