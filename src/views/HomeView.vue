@@ -1,11 +1,13 @@
 <template>
     <MainLayout>
-        <section class="grid grid-cols-1 gap-14 items-center">
-           {{ categoriesAPI }}
-            <section class="grid grid-cols-1 gap-8" v-for="(category,index) in categories" :key="index" >
+        <section class="grid grid-cols-1 gap-14 items-center" v-if="filteredProducts.length">
+           
+           {{ productsAPI }}
+           <section class="grid grid-cols-1 gap-8" v-for="(category, index) in filteredProducts" :key="index" >
+                <!-- <section class="grid grid-cols-1 gap-8" v-for="(category,index) in categories" :key="index" > -->
 
                 <!-- Link to Category -->
-                <router-link :to="{name: 'ListProduct',params: { keyword: category }}" ><h3 class="text-sky-800 text-2xl font-bold capitalize text-left">{{ category }}</h3></router-link>
+                <router-link :to="{name: 'ListProduct',params: { keyword: category }}" ><h3 class="text-sky-800 text-2xl font-bold capitalize text-left">{{ category.alias }}</h3></router-link>
 
                 <!-- Carrusel -->                
                 <swiper                
@@ -53,13 +55,15 @@
                         spaceBetween: 10,
                         },
                     }">
+                    <!-- v-for="(slideContent, index) in productList" -->
+                    <!-- v-for="(slideContent, index) in filterProductsByCategory(category.alias)" -->
+                    {{ category.products }}
                     <swiper-slide
-                        v-for="(slideContent, index) in productList"
-                        :key="index"
+                        v-for="(product, index) in category.products" :key="index"
                         :virtualIndex="index"
                         class="pb-5 slide"
                     >
-                        <CardListTemplate :item="slideContent" :style="{transitionDelay: `${index * 0.8}s` }"/>
+                        <CardListTemplate :item="product" :style="{transitionDelay: `${index * 0.8}s` }"/>
                     </swiper-slide>
                 </swiper>
 
@@ -75,7 +79,7 @@ import { Autoplay,Pagination,Keyboard,Scrollbar,Navigation,Virtual } from 'swipe
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import CardListTemplate from '@/components/CardListTemplate.vue'
-import {ref,onBeforeMount} from 'vue'
+import {ref,onBeforeMount, computed} from 'vue'
 import { categoriesService } from '@/services/categories.service'
 import { productsService } from '@/services/products.service'
 // import { useCartStore } from '@/store/cartStore'
@@ -87,28 +91,28 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/virtual';
 
-const categories = ['category1','category2','category3','category4']
+// const categories = ['category1','category2','category3','category4']
 
-const productList = [
-    {id: 1,name: 'title1', price: 123, src: require('@/assets/images/1.jpeg')},
-    {id: 2,name: 'title2', price: 123, src: require('@/assets/images/2.jpeg')},
-    {id: 3,name: 'title3', price: 123, src: require('@/assets/images/1.jpeg')},
-    {id: 4,name: 'title4', price: 123, src: require('@/assets/images/2.jpeg')},
-    {id: 5,name: 'title5', price: 123, src: require('@/assets/images/1.jpeg')},
-    {id: 6,name: 'title6', price: 123, src: require('@/assets/images/2.jpeg')},
-    {id: 7,name: 'title7', price: 123, src: require('@/assets/images/1.jpeg')},
-    {id: 8,name: 'title8', price: 123, src: require('@/assets/images/2.jpeg')},
-    {id: 9,name: 'title9', price: 123, src: require('@/assets/images/1.jpeg')},
-    {id: 10,name: 'title10', price: 123, src: require('@/assets/images/2.jpeg')},
-    {id: 11,name: 'title11', price: 123, src: require('@/assets/images/1.jpeg')},
-    {id: 12,name: 'title12', price: 123, src: require('@/assets/images/2.jpeg')},
-    {id: 13,name: 'title13', price: 123, src: require('@/assets/images/1.jpeg')}]
+// const productList = [
+//     {id: 1,name: 'title1', price: 123, src: require('@/assets/images/1.jpeg')},
+//     {id: 2,name: 'title2', price: 123, src: require('@/assets/images/2.jpeg')},
+//     {id: 3,name: 'title3', price: 123, src: require('@/assets/images/1.jpeg')},
+//     {id: 4,name: 'title4', price: 123, src: require('@/assets/images/2.jpeg')},
+//     {id: 5,name: 'title5', price: 123, src: require('@/assets/images/1.jpeg')},
+//     {id: 6,name: 'title6', price: 123, src: require('@/assets/images/2.jpeg')},
+//     {id: 7,name: 'title7', price: 123, src: require('@/assets/images/1.jpeg')},
+//     {id: 8,name: 'title8', price: 123, src: require('@/assets/images/2.jpeg')},
+//     {id: 9,name: 'title9', price: 123, src: require('@/assets/images/1.jpeg')},
+//     {id: 10,name: 'title10', price: 123, src: require('@/assets/images/2.jpeg')},
+//     {id: 11,name: 'title11', price: 123, src: require('@/assets/images/1.jpeg')},
+//     {id: 12,name: 'title12', price: 123, src: require('@/assets/images/2.jpeg')},
+//     {id: 13,name: 'title13', price: 123, src: require('@/assets/images/1.jpeg')}]
 
 const modules = [Autoplay,Keyboard, Scrollbar, Pagination, Navigation, Virtual];
 
 
-const categoriesAPI = ref(null)
-const productsAPI   = ref(null)
+const categoriesAPI = ref([])
+const productsAPI   = ref([])
 
 onBeforeMount(async () => {
     try {
@@ -126,6 +130,24 @@ onBeforeMount(async () => {
         throw error
     }
 });
+
+// Recibe una categoria y devuelve de un listado de productos todos los relacionados
+const filterProductsByCategory = (categoryAlias) => {
+  return productsAPI.value.filter(product => {
+    return product.marketplace_categories.some(category => category.alias === categoryAlias);
+  });
+};
+
+// Se crea un obj con las categorias y productos
+const filteredProducts = computed(() => {
+    if (!categoriesAPI.value) return [];
+    return categoriesAPI.value.map(category => ({
+        ...category,
+        products: filterProductsByCategory(category.id)
+    }));
+});
+
+console.log(filteredProducts)
 
 </script>
 
