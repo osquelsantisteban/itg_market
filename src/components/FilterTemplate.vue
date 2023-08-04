@@ -15,13 +15,13 @@
             <h4 class="mt-5">Categorías</h4>
             <ul class="">
                 <li 
-                    v-for="(item, index) in categories" 
+                    v-for="(item, index) in categoriesAPI" 
                     :key="index" 
                     class="block"
                     >
                     <router-link 
-                        :to="{name: 'ListProduct', params: { keyword: item }}" 
-                        v-text="item"
+                        :to="{name: 'ListProduct', params: { keyword: item.alias }}" 
+                        v-text="item.alias"
                     >
                     </router-link>
                 </li>
@@ -31,11 +31,15 @@
 </template>
 
 <script setup>
-import { defineEmits } from 'vue'
+import { ref,onBeforeMount,defineEmits } from 'vue'
 import { useSearchStore } from '@/store/searchStore'
 
+import { categoriesService } from '@/services/categories.service'
+
+const categoriesAPI = ref([])
+
 const searchStore = useSearchStore()
-const categories = ['category1','category2','category3','category4']
+// const categories = ['category1','category2','category3','category4']
 
 const emits = defineEmits(['updFilter'])
 
@@ -44,6 +48,21 @@ const clear = () => {
     emits('updFilter')
 }
 
+
+onBeforeMount(async () => {
+    try {
+
+        [categoriesAPI.value] = await Promise.all([
+            categoriesService.allCategories(),
+        ]);
+
+        if(!categoriesAPI.value) throw {msg: 'Error en obtener las categorías',error: categoriesAPI.value}
+
+    } catch (error) {
+        console.error("Error al obtener las categorías o los productos: ", error);
+        throw error
+    }
+});
 </script>
 
 <style scoped>

@@ -5,7 +5,7 @@
                 <img :src="props.item.src" alt="" class=" bg-slate-400 ">
             </figure>
             <figcaption class="flex flex-col ">
-                <h4 class="text-gray-800 text-base my-2 hover:cursor-pointer" @click="navigateToProduct">{{ props.item.name}}</h4>                
+                <h4 class="text-gray-800 text-base my-2 hover:cursor-pointer" @click="navigateToProduct">{{ props.item.alias}}</h4>                
             </figcaption>
         </article>
         <div class="block w-full py-2">
@@ -35,7 +35,7 @@ const props = defineProps({
 const addCarToStore = () => cart.addProduct(props.item)
 
 const navigateToProduct = () => {
-  router.push({ name: 'ProductDetail', params: { keyword: props.item.name } })
+  router.push({ name: 'ProductDetail', params: { keyword: props.item.keyword } })
 }
 
 const navigateToCart = () => {

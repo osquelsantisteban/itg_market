@@ -6,8 +6,10 @@
            <section class="grid grid-cols-1 gap-8" v-for="(category, index) in filteredProducts" :key="index" >
                 <!-- <section class="grid grid-cols-1 gap-8" v-for="(category,index) in categories" :key="index" > -->
 
-                <!-- Link to Category -->
-                <router-link :to="{name: 'ListProduct',params: { keyword: category }}" ><h3 class="text-sky-800 text-2xl font-bold capitalize text-left">{{ category.alias }}</h3></router-link>
+                <!-- Link to Category -->                
+                <router-link :to="{name: 'ListProduct',params: { keyword: category.alias }}" >
+                    <h3 class="text-sky-800 text-2xl font-bold capitalize text-left">{{ category.alias }}</h3>
+                </router-link>
 
                 <!-- Carrusel -->                
                 <swiper                
@@ -132,9 +134,9 @@ onBeforeMount(async () => {
 });
 
 // Recibe una categoria y devuelve de un listado de productos todos los relacionados
-const filterProductsByCategory = (categoryAlias) => {
+const filterProductsByCategory = (categoryId) => {
   return productsAPI.value.filter(product => {
-    return product.marketplace_categories.some(category => category.alias === categoryAlias);
+    return product.marketplace_categories.some(category => category.id === categoryId);
   });
 };
 

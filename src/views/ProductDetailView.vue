@@ -1,20 +1,20 @@
 <template>
     <MainLayout>
-        <article v-if="product" class="flex w-full flex-col md:flex-row">
+        <article v-if="productsAPI" class="flex w-full flex-col md:flex-row">
                         
                 <figure class="flex w-full h-auto md:w-1/2">
-                    <img :src="product.src" alt="">
+                    <img :src="productsAPI.src" alt="">
                 </figure>
 
                 <!-- Detalles del Producto -->
                 <div class="w-full md:w-5/12">
                     <!-- Title -->
-                    <h3 class="text-justify font-bold text-2xl my-10 text-sky-800 capitalize">{{ product.name }}</h3>
+                    <h3 class="text-justify font-bold text-2xl my-10 text-sky-800 capitalize">{{ productsAPI.alias }}</h3>
 
                     <!-- Price -->
                     <div class="flex gap-5 mb-10">
-                        <div class="text-amber-400 font-bold text-3xl">${{ product.price }}</div>
-                        <div class="line-through">${{ product.price_discount }}</div>
+                        <div class="text-amber-400 font-bold text-3xl">${{ productsAPI.price }}</div>
+                        <div class="line-through">${{ productsAPI.price_discount }}</div>
                     </div>
 
                     <!-- Descripcion -->
@@ -65,36 +65,57 @@ import { onBeforeMount, ref } from 'vue';
 import MainLayout from '@/layouts/MainLayout.vue'
 import BtnAddLess from '@/components/BtnAddLess'
 import { useRoute,useRouter } from 'vue-router'
+import { productsService } from '@/services/products.service'
 
 
 const route = useRoute()
 const router = useRouter()
 
-const productList = [
-    {id: 1,name: 'title1', category: 'category1', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
-    {id: 2,name: 'title2', category: 'category2', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
-    {id: 3,name: 'title3', category: 'category3', price_discount: 200, price: 123, src: require('@/assets/images/2.jpeg'), available: false},
-    {id: 4,name: 'title4', category: 'category4', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
-    {id: 5,name: 'title5', category: 'category5', price_discount: 200, price: 123, src: require('@/assets/images/2.jpeg'), available: false},
-    {id: 6,name: 'title6', category: 'category6', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
-    {id: 7,name: 'title7', category: 'category7', price_discount: 200, price: 123, src: require('@/assets/images/2.jpeg'), available: false},
-    {id: 8,name: 'title8', category: 'category8', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
-    {id: 9,name: 'title9', category: 'category9', price_discount: 200, price: 123, src: require('@/assets/images/2.jpeg'), available: false},
-    {id: 10,name: 'title10', category: 'category10', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
-    {id: 11,name: 'title11', category: 'category11', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
-    {id: 12,name: 'title12', category: 'category12', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
-    {id: 13,name: 'title13', category: 'category13', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true}]
+// const productList = [
+//     {id: 1,name: 'title1', category: 'category1', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
+//     {id: 2,name: 'title2', category: 'category2', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
+//     {id: 3,name: 'title3', category: 'category3', price_discount: 200, price: 123, src: require('@/assets/images/2.jpeg'), available: false},
+//     {id: 4,name: 'title4', category: 'category4', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
+//     {id: 5,name: 'title5', category: 'category5', price_discount: 200, price: 123, src: require('@/assets/images/2.jpeg'), available: false},
+//     {id: 6,name: 'title6', category: 'category6', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
+//     {id: 7,name: 'title7', category: 'category7', price_discount: 200, price: 123, src: require('@/assets/images/2.jpeg'), available: false},
+//     {id: 8,name: 'title8', category: 'category8', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
+//     {id: 9,name: 'title9', category: 'category9', price_discount: 200, price: 123, src: require('@/assets/images/2.jpeg'), available: false},
+//     {id: 10,name: 'title10', category: 'category10', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
+//     {id: 11,name: 'title11', category: 'category11', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
+//     {id: 12,name: 'title12', category: 'category12', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true},
+//     {id: 13,name: 'title13', category: 'category13', price_discount: 200, price: 123, src: require('@/assets/images/1.jpeg'), available: true}]
 
 
-const product = ref(null);
-onBeforeMount(() => {
-  let productTitle = route.params.keyword;
-  product.value = productList.find(el => el.name === productTitle);
-  if (!product.value) {
-    router.push({ name: 'NotFound' });
-  }
+// const product = ref([]);
+const productsAPI   = ref([])
+
+// onBeforeMount(() => {
+    //   product.value = productList.find(el => el.name === productTitle);
+    //   if (!product.value) {
+//     router.push({ name: 'NotFound' });
+//   }
+// });
+
+onBeforeMount(async () => {
+    try {
+        let keyword = route.params.keyword;
+
+        [productsAPI.value] = await Promise.all([         
+            productsService.getProductKeyword(keyword)
+        ]);
+        
+        if(!productsAPI.value){
+            router.push({ name: 'NotFound' });
+            throw {msg: 'Error en obtener el producto' ,error: productsAPI.value}
+        }
+        
+
+    } catch (error) {
+        console.error("Error al obtener las categorías o los productos: ", error);
+        throw error
+    }
 });
-
 
 </script>
 

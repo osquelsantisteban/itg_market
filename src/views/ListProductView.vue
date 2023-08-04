@@ -9,7 +9,7 @@
             <section class="flex flex-col flex-1 gap-8">                
                 <h3 class="text-sky-800 text-2xl capitalize" v-if="category">{{ category }}</h3>
                 <div class="flex justify-end"><select class="w-24"><option value="">precio</option><option value="">más populares</option></select></div>
-                <section class="grid grid-cols-1 md:grid-cols-3 gap-5 justify-items-center">
+                <section class="flex flex-wrap gap-5 justify-items-center">
                     <CardListTemplate  v-for="(item, index) in productList" :key="index" :item="item" class=""/>
                 </section>
             </section>
@@ -48,6 +48,9 @@ const productList = [
     {id: 13,name: 'title13', price: 123, src: require('@/assets/images/1.jpeg')}]
 
 // const cart = useCartStore()
+
+// TODO add loading
+// TODO validar la ruta con las categorias de la BD sino existe mandar a not_found
 
 const applyFiler = () => {
     alert('filtro aplicado')
