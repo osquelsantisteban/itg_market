@@ -1,16 +1,19 @@
-const API = ''
+const AUTH = {
+    username: 'api@admin.com',
+    password: 'IT_api'
+}
+
 const GALLERY = "https://iristravel.s3.us-east-2.amazonaws.com/images/"
+const API = 'http://localhost:3000'
+// const API = 'https://api.iristravelgroup.com'
 
 let CONFIG = {
     baseURL: `${API}`,
-    auth: {
-        username: '',
-        password: ''
-    }
 };
 
 export default {
     API,
-    GALLERY,
-    CONFIG
+    AUTH,
+    CONFIG,
+    GALLERY
 }

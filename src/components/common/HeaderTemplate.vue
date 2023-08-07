@@ -14,7 +14,7 @@
         <div class="hidden bg-sky-800 mb-0 md:flex w-9/12 md:w-full items-center gap-0 h-auto">
           <select v-model="searchStore.type"  class="w-28 h-10 bg-white border-2 border-amber-400 px-3 py-1 rounded-l-lg">
             <option value="all" class="">Todos</option>
-            <option value="categories" class="">Categorias</option>
+            <option value="category" class="">Categorías</option>
             <option value="products" class="">Productos</option>
             <option value="prices" class="">Precios</option>
           </select>
@@ -69,7 +69,7 @@
     <div class="md:hidden flex w-full bg-sky-800 p-2 items-center gap-0 h-auto">
       <select v-model="searchStore.type" class="w-28 h-10 bg-white border-2 border-amber-400 px-3 py-1 rounded-l-lg">
         <option value="all" class="">Todos</option>
-        <option value="categories" class="">Categorias</option>
+        <option value="category" class="">Categorías</option>
         <option value="products" class="">Productos</option>
         <option value="prices" class="">Precios</option>
       </select>

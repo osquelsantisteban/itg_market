@@ -1,11 +1,14 @@
 import router from "@/router";
 import { apiService } from "@/services/api.service";
 import { defineStore } from "pinia";
+import { useAuthStore } from "./authStore";
+
+const authStore = useAuthStore();
 
 export const useSearchStore = defineStore('searchStore',{
     state:   () => {
         return {
-            type: 'categories',
+            type: 'all',
             search: '',
             // filter
             min: null,
@@ -14,21 +17,36 @@ export const useSearchStore = defineStore('searchStore',{
     },    
     actions: {
         // Busca en los todos
-        goToSearchView() {            
+        goToSearchView() {
             router.push({name: 'SearchResult',params:{keyword: this.search}})
             // alert(`vamos a buscar ${this.search}`)
         },
 
         // getSearch
         async getSearch() {
-            let type = this.type
-            let value = this.search            
-            const url    = `/marketplace-items/search-by-criteria`
-            const method = 'post'
+
+            let url = '/marketplace-items/search-by-criteria'
+            if(!authStore.token) authStore.getToken()
+
+            let options = {
+                url,
+                token: authStore.token,
+                method: 'post',
+                data:{
+                    type: this.type,
+                    value: this.search
+                }
+            }
+
             try {
-                let res = await apiService.request({ url,data: {type,value},method })
+                let res = await apiService.request(options)
                 if(!res) throw {msg: 'Error en la búsqueda',error: res};
 
+                // Uno los resultados y elimino duplicados
+                if(this.type === 'all'){
+                    const uniqueValues = new Set([...res[0], ...res[1]]);
+                    return [...uniqueValues];
+                }
                 return res;
 
             } catch (error) {            
