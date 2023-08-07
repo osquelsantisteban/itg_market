@@ -7,23 +7,27 @@ export const apiService = {
 
       async request(conf) {
         try {
-          const { url, params = {}, headers = {}, data = {}, method = 'get', token = '' } = conf;
-      
+          const { url, params = {}, headers = {}, data = {}, method = 'get', token } = conf;
           const finalHeaders = { ...headers, "Content-type": "application/json; charset=utf-8" };
-      
+
           if (token) {
             finalHeaders.Authorization = 'Bearer ' + token;
           }
-      
+
           const options = {
             method,
             headers: finalHeaders,
             data,
             params,
           };
-      
+
+          if(!token){            
+            options.auth = API.AUTH;
+          }
+          
           const response = await httpClient(url, options);
-      
+          // console.log(response)
+          
           // Si la respuesta es exitosa, retorna los datos
           if (response.status === 200) return response.data;
       

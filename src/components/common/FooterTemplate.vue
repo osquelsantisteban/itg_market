@@ -79,7 +79,7 @@ import { ref,onBeforeMount } from "vue";
 import textServices from "@/services/texts.service"
 // import {useAuthStore} from "@/store/authStore"
 // const authStore = useAuthStore();
-// await authStore.getBearerToken();  
+// await authStore.getToken();  
 
 const logo_img  = ref(CONFIG.GALLERY + "general/logo/logo-white.png")
 

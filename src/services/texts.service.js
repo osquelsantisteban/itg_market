@@ -23,9 +23,9 @@ const TextService = {
     async getFooter(){
         try {
                 
-                if(!authStore.bearer_token) authStore.getBearerToken()
+                if(!authStore.token) authStore.getToken()
                 
-                if(authStore.bearer_token){
+                if(authStore.token){
                     
                     const [direccion, phones, copyright] = await Promise.all([
                         this.getTextByKeys('direccion'),

@@ -73,12 +73,12 @@ const formLogin = ref({
 
 /* onBeforeMount(async () => {
   try {
-    await authStore.getBearerToken();   
+    await authStore.getToken();   
   } catch (error) {
     console.log(error)
   }
   
-  // console.log(authStore.bearer_token)
+  // console.log(authStore.token)
   
   // dir.value       = await footerData.dir
   // phones.value    = await footerData.phones

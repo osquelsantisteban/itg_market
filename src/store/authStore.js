@@ -6,7 +6,7 @@ import CryptoJS from 'crypto-js'
 export const useAuthStore = defineStore('authStore',{
     state:   () => {
         return {
-            bearer_token:  null,
+            token:  null,
             is_login: false,            
         }
     },
@@ -14,13 +14,13 @@ export const useAuthStore = defineStore('authStore',{
                 
     },
     actions: {
-        async getBearerToken(){
+        async getToken(){
             try{
 
                 let url = `/user-api/login`            
                 const res = await apiService.request({url})
                 if(!res.token) throw {Error: 'Error al conetarse al api y obtener el token'} 
-                this.setBearerToken(res.token);
+                this.setToken(res.token);
             }catch(err){
                 console.error(err)
                 throw err
@@ -39,11 +39,11 @@ export const useAuthStore = defineStore('authStore',{
                 // let url = `/clients/login`
                 let url = `/clients/login?email=${email}&password=${password}`
                 
-                if(!this.bearer_token) this.getBearerToken()
+                if(!this.token) this.getToken()
 
                 /* const params = {
                     auth: true,
-                    token: this.bearer_token,
+                    token: this.token,
                     headers: {
                         password,
                         email,
@@ -52,7 +52,7 @@ export const useAuthStore = defineStore('authStore',{
                 } */
                 const params = {
                     auth: true,
-                    token: this.bearer_token,
+                    token: this.token,
                     /* headers: {
                         password,
                         email,
@@ -89,7 +89,7 @@ export const useAuthStore = defineStore('authStore',{
 
         encryptPass(pass) {
             
-            const token = this.bearer_token.slice(-10)            
+            const token = this.token.slice(-10)            
             let encrypted_pass = null        
             let salt = CryptoJS.lib.WordArray.random(128 / 8);        
             if (token) {
@@ -99,12 +99,12 @@ export const useAuthStore = defineStore('authStore',{
             return encrypted_pass
         },
 
-        setBearerToken(token) {
-            this.bearer_token = token
+        setToken(token) {
+            this.token = token
         },
 
         clearToken() {
-            this.bearer_token = null
+            this.token = null
         },
         
     },
