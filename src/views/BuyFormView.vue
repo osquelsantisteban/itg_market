@@ -2,12 +2,13 @@
     <MainLayout>
         <!-- Formulario -->
         <section class="flex gap-5">
-            <div class="flex flex-col w-10/12 gap-5">
+            <div class="flex flex-col w-11/12 gap-5">
+                <span class="text-gray-400">Los campos con * son obligatorios</span>
                 
                 <!-- Comprador -->
                 <div class="flex flex-col gap-5 my-2">
                 
-                    <div class="flex gap-5 w-full">
+                    <div class="flex flex-col md:flex-row gap-5 w-full">
                         <!-- Nombre del Comprador -->
                         <div class="flex flex-col flex-1">
                             <input type="text" placeholder="Nombre del comprador" 
@@ -34,7 +35,7 @@
                         
                     </div>
 
-                    <div class="flex gap-5 w-full">
+                    <div class="flex flex-col md:flex-row gap-5 w-full">
                         <!-- Email del Comprador -->
                         <div class="flex flex-col flex-1">
                             <input type="email" placeholder="Email del comprador" 
@@ -67,10 +68,10 @@
                     </div>
                     <div class="flex flex-col gap-5">
 
-                        <div class="flex gap-5 w-full">
+                        <div class="flex flex-col md:flex-row gap-5 w-full">
                             <!-- Nombre Receptor -->
                             <div class="flex flex-col flex-1">
-                                <input type="text" placeholder="Nombre del receptor" 
+                                <input type="text" placeholder="Nombre del receptor*" 
                                     v-model="form.name_receiver"
                                     @input="validateNameReceiver"
                                     class="input_form" required
@@ -80,7 +81,7 @@
 
                             <!-- Apellidos Receptor -->
                             <div class="flex flex-col flex-1">
-                                <input type="text" placeholder="Apellidos del receptor" 
+                                <input type="text" placeholder="Apellidos del receptor*" 
                                     v-model="form.last_name_receiver"
                                     @input="validateLastNameReceiver"
                                     class="input_form" required
@@ -89,16 +90,71 @@
                             </div>
                         </div>
 
+                        <div class="flex flex-col md:flex-row gap-5 w-full">
+                            <!-- Provincia Receptor -->                            
+                            <div class="flex flex-col flex-1">
+                                <model-select :options="provinces"
+                                        placeholder="Seleccione la provincia*"
+                                        v-model="form.province_receiver"
+                                        @searchchange="updProvince"
+                                        required
+                                        class="input_form"
+                                        :class="{'input_form_error': errors.province_receiver}">
+                                </model-select>                               
+                                <span class="span_error">{{ errors.province_receiver }}</span>
+                            </div>
+
+                            <!-- Municipio Receptor -->                            
+                            <div class="flex flex-col flex-1">
+                                <div class="py-6 text-3xl" v-show="loadingCities">
+                                    <i class="fa fa-spinner fa-pulse"></i>
+                                </div>
+                                <model-select 
+                                        :options="cities"
+                                        v-show="!loadingCities"
+                                        v-model="form.city_receiver"
+                                        placeholder="Seleccione el municipio*"
+                                        required                                        
+                                        class="input_form"
+                                        :class="{'input_form_error': errors.city_receiver}">
+                                </model-select>
+                                <span class="span_error">{{ errors.city_receiver }}</span>
+                            </div>
+                        </div>
+
                         <!-- Dirección Receptor -->
                         <div class="flex flex-col flex-1">
-                            <input type="text" placeholder="Dirección del receptor" 
+                            <input type="text" placeholder="Dirección del receptor*" 
                                 v-model="form.address_receiver" required
                                 class="input_form"
                                 :class="{'input_form_error': errors.address_receiver}">
                             <span class="span_error">{{ errors.address_receiver }}</span>
                         </div>
 
-                        <div class="flex gap-5 w-full">
+                        
+                        <div class="flex flex-col md:flex-row gap-5 w-full">
+                            
+                            <!-- CI -->
+                            <div class="flex flex-col flex-1">
+                                <input type="text" placeholder="Escriba su CI*" v-model="form.ci_receiver" required
+                                    class="input_form"
+                                    @input="validateCIReceiver"
+                                    :class="{'input_form_error': errors.ci_receiver}">
+                                <span class="span_error">{{ errors.ci_receiver }}</span>
+                            </div>
+
+                            <!-- Código Postal Receptor -->
+                            <div class="flex flex-col flex-1">
+                                <input type="text" placeholder="Código postal del receptor" v-model="form.postal_code_receiver" required
+                                    class="input_form"
+                                    @input="validatePostalCodeReceiver"
+                                    :class="{'input_form_error': errors.postal_code_receiver}">
+                                <span class="span_error">{{ errors.postal_code_receiver }}</span>
+                            </div>
+                            
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-5 w-full">
 
                             <!-- Email Receptor -->
                             <div class="flex flex-col flex-1">
@@ -112,7 +168,7 @@
 
                             <!-- Teléfono Receptor -->
                             <div class="flex flex-col flex-1">
-                                <input type="tel" placeholder="Teléfono del receptor" 
+                                <input type="tel" placeholder="Teléfono del receptor*" 
                                     v-model="form.phone_receiver" required
                                     @input="validatePhoneReceiver"
                                     class="input_form"
@@ -120,15 +176,9 @@
                                 <span class="span_error">{{ errors.phone_receiver }}</span>
                             </div>
                         </div>
+
+                        <textarea v-model="form.obs" class="w-full input_form" placeholder="Escriba algún otro dato aquí"></textarea>
                         
-                        <!-- Código Postal Receptor -->
-                        <div class="flex flex-col flex-1">
-                            <input type="text" placeholder="Código postal del receptor" v-model="form.postal_code_receiver" required
-                                class="input_form"
-                                @input="validatePostalCodeReceiver"
-                                :class="{'input_form_error': errors.postal_code_receiver}">
-                            <span class="span_error">{{ errors.postal_code_receiver }}</span>
-                        </div>
                     </div>
                 </div>
 
@@ -136,22 +186,31 @@
                     <button type="submit" class="btn-send" @click="sendToBuy">Enviar</button>
                 </div>
             </div>
-            <div class="w-2/12">
-                <PanelCart />
-            </div>
+            
         </section>
     </MainLayout>
 </template>
 
 <script setup>
 
-import MainLayout from '@/layouts/MainLayout.vue'
-import PanelCart from '@/components/PanelCart.vue';
-import { ref,/*computed,watch,defineExpose */ } from 'vue';
-import useFormValidation  from '@/composables/validation'
+import MainLayout from '@/layouts/MainLayout.vue';
+// import PanelCart from '@/components/PanelCart.vue';
+import { ref,onBeforeMount,watch/*computed,defineExpose */ } from 'vue';
+import useFormValidation  from '@/composables/validation';
+import { ModelSelect } from 'vue-search-select';
+import 'vue-search-select/dist/VueSearchSelect.css';
+import { provincesService } from '@/services/provinces.service';
+import { citiesService } from '@/services/cities.service';
 
-const { validateOnlyText,validateOnlyInteger,validatePhone,validateEmail } = useFormValidation()
+const { validateOnlyText,validateOnlyInteger,validatePhone,validateCi,validateEmail } = useFormValidation()
 const errors = ref({})
+const provinces = ref([])
+const cities = ref([])
+const loadingCities = ref(false)
+
+onBeforeMount(async () => {
+    provinces.value = await provincesService.getSimpleList()
+})
 
 const form = ref({
     // Comprador
@@ -163,11 +222,33 @@ const form = ref({
     isSamePerson: false,
     name_receiver: '',
     last_name_receiver: '',
+    province_receiver: null,
+    city_receiver: null,
     address_receiver: '',
     email_receiver: '',
     phone_receiver: '',
     postal_code_receiver: '',
+    ci_receiver: '',
 })
+
+// Cada vez que se cambia la provincia se actualiza el municipio
+const updProvince = async () => {    
+    try {
+        loadingCities.value = true
+        cities.value = await citiesService.getSimpleList(form.value.province_receiver)
+        
+    } catch (error) {        
+        console.log(error)
+    }finally{
+        loadingCities.value = false        
+    }
+}
+
+// Se observa la provincia
+watch(() => form.value.province_receiver, () => {
+    updProvince();
+});
+
 
 const disableIsSamePerson = () => {
     if (!form.value.isSamePerson) {
@@ -216,6 +297,7 @@ let validateLastNameReceiver    = () => validateField('last_name_receiver', vali
 let validateEmailReceiver       = () => validateField('email_receiver', validateEmail, 'El email no es válido');
 let validatePhoneReceiver       = () => validateField('phone_receiver', validatePhone, 'El teléfono no es válido');
 let validatePostalCodeReceiver  = () => validateField('postal_code_receiver', validateOnlyInteger, 'El código postal no es válido');
+let validateCIReceiver          = () => validateField('ci_receiver', validateCi, 'El CI no es válido');
 
 const sendToBuy = (e) => {
     e.preventDefault();
@@ -223,14 +305,24 @@ const sendToBuy = (e) => {
     let requiredList = [];
     if(form.value.isSamePerson)
         // Solo estos son requeridos
-        requiredList = ['name_receiver','last_name_receiver','email_receiver','phone_receiver','address_receiver','postal_code_receiver']
+        requiredList = [
+            'name_receiver',
+            'last_name_receiver',
+            'email_receiver',
+            'phone_receiver',
+            'province_receiver',
+            'city_receiver',
+            'address_receiver',
+            'ci_receiver'
+        ]
     else
         // Todos son obligatorios
         requiredList = getFields()
     
-    // si true OK    
+    // si validate fail
     if(!validateRequired(requiredList)) return alert('Error de validación')
-
+        
+    // si validate is OK
     console.log(`Nombre Comprador ${form.value.name_buy}`)
     console.log(`Nombre Receptor ${form.value.name_receiver}`)
 
@@ -245,6 +337,10 @@ const sendToBuy = (e) => {
 
     console.log(`Address Receptor ${form.value.address_receiver}`)
     console.log(`Codigo Postal Receptor ${form.value.postal_code_receiver}`)
+
+    console.log(`Province Receptor ${form.value.province_receiver}`)
+    console.log(`city Receptor ${form.value.city_receiver}`)
+    console.log(`ci Receptor ${form.value.ci_receiver}`)
 }
 
 </script>
@@ -258,6 +354,15 @@ const sendToBuy = (e) => {
 .input_form {
     @apply flex w-full border border-gray-300 rounded-lg px-5 py-2 placeholder-gray-400 text-sky-800
     focus:ring-1 focus:border-sky-600 focus:outline-none;
+}
+
+:deep() .ui.selection.dropdown,.ui.dropdown.selected, .ui.dropdown .menu .selected.item{
+    @apply flex w-full border border-gray-300 rounded-lg placeholder-gray-400 text-sky-800
+    focus:ring-1 focus:border-sky-600 focus:outline-none
+}
+
+:deep() .ui.default.dropdown:not(.button) > .text{
+    color: red;
 }
 
 .input_form_error {

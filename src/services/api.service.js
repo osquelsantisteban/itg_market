@@ -35,10 +35,13 @@ export const apiService = {
           switch (response.status) {
             case 400:
               throw new Error('Solicitud incorrecta');
+            
             case 401:
               throw new Error('No autorizado');
+            
             case 404:
               throw new Error('Recurso no encontrado');
+          
             // Agregar más códigos de estado según sea necesario
             default:
               throw new Error(`Error inesperado: ${response.status}`);

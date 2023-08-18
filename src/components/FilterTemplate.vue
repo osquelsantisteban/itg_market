@@ -12,12 +12,12 @@
                 <button class="bg-sky-800 text-white w-7/12 rounded-lg py-2 px-3" @click="emitUpdateFilter">Aplicar</button>
             </div>
 
-            <h4 class="mt-5">Categorías</h4>
-            <ul class="">
+            <h4 class="mt-5 w-full text-left">Categorías</h4>
+            <ul class="w-full">
                 <li 
                     v-for="(item, index) in categoriesAPI" 
                     :key="index" 
-                    class="block"
+                    class="flex flex-col items-start w-full"
                     >
                     <router-link 
                         :to="{name: 'ListProduct', params: { keyword: item.alias }}" 

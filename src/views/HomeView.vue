@@ -139,16 +139,16 @@ const filteredProducts = computed(() => {
 
 
 <style scoped>
-/deep/ .swiper-button-next, 
-/deep/ .swiper-button-prev {
+:deep() .swiper-button-next, 
+:deep() .swiper-button-prev {
   background-color: rgba(114,114,114, 1);
   border-radius: 9999px;
   width: 50px;
   height: 50px;
 }
 
-/deep/ .swiper-button-next:after, 
-/deep/ .swiper-button-prev:after {
+:deep() .swiper-button-next:after, 
+:deep() .swiper-button-prev:after {
   color: #ffffff;
   font-size: 20px;
 }

@@ -16,6 +16,11 @@ export default function useFormValidation() {
   };
 
 
+  const validateCi = (value) => {
+    let pattern = /^\d{11}$/;
+    return pattern.test(value);
+  };
+
   const validateEmail = (value) => {
     let pattern = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
     return pattern.test(value);
@@ -25,6 +30,7 @@ export default function useFormValidation() {
     validateOnlyText,
     validateOnlyInteger,
     validatePhone,
+    validateCi,
     validateEmail,
   };
 }

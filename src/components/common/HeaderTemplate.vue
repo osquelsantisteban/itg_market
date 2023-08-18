@@ -55,11 +55,11 @@
 
         <!-- Navigation -->
         <nav class="absolute top-14 right-0 transition-opacity delay-100 bg-slate-800/70 text-white" v-show="openMenu">
-          <ul class="w-full py-5">
-            <li>p1ssd sdkjsdsk sdjskdskjdks</li>
+          <ul class="w-full py-5">            
             <li>p2</li>
             <li>p3</li>
             <li>p4</li>
+            <li><button @click="closeSession">Cerrar Sesión</button></li>
           </ul>
         </nav>
       </div>
@@ -89,16 +89,23 @@
 
 <script setup>
 import CONFIG from '../../../config.js'
-import { ref/* ,onBeforeMount */ } from "vue";
-// import {useAuthStore} from "@/store/authStore"
+import { ref } from "vue";
+import {useAuthStore} from "@/store/authStore"
 import {useCartStore} from "@/store/cartStore"
 import {useSearchStore} from "@/store/searchStore"
+import router from '@/router';
 
-// const auth = useAuthStore();
+const auth = useAuthStore();
 const cart = useCartStore();
 const searchStore = useSearchStore();
 const logo_img = ref(CONFIG.GALLERY + "general/logo/logo-white.png")
 const openMenu = ref(false)
+
+const closeSession = () => {
+  let logout = auth.logout();
+  if(logout)
+  router.push({ name: 'Login'})
+}
 
 </script>
 <style scoped>

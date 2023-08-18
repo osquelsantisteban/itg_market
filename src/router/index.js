@@ -85,7 +85,7 @@ const routes = [
     name: 'ResetPassword',
     component: () => import (/* webpackChunkName: "reset_password" */ '@/views/auth/ResetPasswordView.vue'),    
     meta: {
-      login: false
+      login: true
     }
   },  
   // Not Found
@@ -107,7 +107,8 @@ router.beforeEach((to, from, next) => {
     return next({name: 'NotFound'})
 
   const authStore = useAuthStore();  
-  const loggedIn = !!authStore.token;
+  const loggedIn = !!authStore.is_login;
+  
   const isProtected = to.matched.some(route => route.meta.login)
   
   if(isProtected && !loggedIn)

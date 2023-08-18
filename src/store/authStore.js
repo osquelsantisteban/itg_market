@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { apiService } from "@/services/api.service.js";
 import VueCookies from 'vue-cookies'
 import CryptoJS from 'crypto-js'
+import jwtDecode from 'jwt-decode';
 
 export const useAuthStore = defineStore('authStore',{
     state:   () => {
@@ -29,50 +30,61 @@ export const useAuthStore = defineStore('authStore',{
 
         async login(options){
             try {
-                let {email/* ,password */} = options
+                let {email,password} = options
                 
-                // console.log(params)
-                // password = this.encryptPass(password)
-                // let encodedPassword = encodeURIComponent(password);
-                let password = 'U2FsdGVkX19nKhj+FoOALeZYUcure2ZAUHKlkPkGoaEycIUupvFYSdUrIsknolqU'
-                // let email = 'manager@iristravelgroup.com'
-                // let url = `/clients/login`
-                let url = `/clients/login?email=${email}&password=${password}`
+                let url = `/clients/login`
                 
                 if(!this.token) this.getToken()
-
-                /* const params = {
-                    auth: true,
+                
+                const params = {                    
                     token: this.token,
+                    url,
+                    method: 'get',
                     headers: {
                         password,
                         email,
                     },
-                    url,
-                } */
-                const params = {
-                    auth: true,
-                    token: this.token,
-                    /* headers: {
-                        password,
-                        email,
-                    }, */
-                    url,
                 }
                 
-                // const res = await apiService.getBearerData(params)
-                // console.log(params)
                 const res = await apiService.request(params)
-                console.log(res)
+                                
+                // TODO mejorar
+                // no se authentico
                 if(!res) throw {message: 'Error en login',result: res}
+                if(!res.status === 'OK' || !res.data) return false;
                 
-                VueCookies.set('auth','hola cookie')
-                // console.log(res)
-                // VueCookies.set('auth',res.token);
+                // login ok
+                this.token = res.token
+                this.is_login = true                
+                VueCookies.set('auth',this.token)
+                return true
+
             } catch (error) {
                 console.log(error)
                 throw {message: 'Error en login',result: error}
             }
+        },
+
+        async logout() {        
+            try {
+                
+                let options = {
+                    url: '/clients/logout',
+                    token: this.token,
+                } 
+                const res = await apiService.request(options)
+                // console.log(res)
+                if(res) {
+                    this.is_login = false
+                    this.clearToken()
+                    return true;
+                }
+
+                return false;
+
+            } catch(e) {                
+                console.log('problemas al desloguearse',e)
+            }        
         },
 
         isLogin(){
@@ -80,6 +92,7 @@ export const useAuthStore = defineStore('authStore',{
             if(authToken) return true
             return false
         },
+        
 
         whoIsLogin(){
             let username = VueCookies.get('username');
@@ -88,7 +101,7 @@ export const useAuthStore = defineStore('authStore',{
         },
 
         encryptPass(pass) {
-            
+            // const decodeToken = this.decodeToken()
             const token = this.token.slice(-10)            
             let encrypted_pass = null        
             let salt = CryptoJS.lib.WordArray.random(128 / 8);        
@@ -97,6 +110,10 @@ export const useAuthStore = defineStore('authStore',{
             }
             // console.log(encrypted_pass)
             return encrypted_pass
+        },
+
+        decodeToken(token) {
+            return jwtDecode(token);
         },
 
         setToken(token) {

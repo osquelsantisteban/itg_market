@@ -64,6 +64,8 @@
 import MainLayout from '@/layouts/MainLayout.vue'
 import { ref/* ,onBeforeMount */ } from "vue";
 import {useAuthStore} from "@/store/authStore"
+import router from '@/router';
+
 const authStore = useAuthStore();
 
 const formLogin = ref({
@@ -71,24 +73,16 @@ const formLogin = ref({
   password: '',
 });
 
-/* onBeforeMount(async () => {
-  try {
-    await authStore.getToken();   
-  } catch (error) {
-    console.log(error)
-  }
-  
-  // console.log(authStore.token)
-  
-  // dir.value       = await footerData.dir
-  // phones.value    = await footerData.phones
-  // copyright.value = await footerData.copyright
-}) */
-
 const sendRequest = async () => {
   try {
+    let passwordEncrypted = authStore.encryptPass(formLogin.value.password)
+    let login = await authStore.login({ email: formLogin.value.username, password: passwordEncrypted});
+    
+    if(login)
+      router.push({ name: 'Dashboard'})
+    else
+      alert('Usuario o password incorrectos')
 
-    await authStore.login({ email: formLogin.value.username, password: formLogin.value.password});
   } catch (error) {
     console.log(error)
   }
