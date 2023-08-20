@@ -2,8 +2,8 @@
     
     <article class="flex border border-gray-300 rounded-lg" :class="{'style-remove': isRemoving }">
         
-        <figure class="flex items-center w-60 h-52 px-1 bg-cover overflow-hidden hover:cursor-pointer" @click="navigateToProduct">
-            <img :src="props.item.src" alt="" class=" bg-slate-400 ">
+        <figure class="flex items-center w-60 h-52 px-1 bg-cover overflow-hidden hover:cursor-pointer" @click="navigateToProduct" v-if="props.item.images[0]">
+            <img :src="props.item.images[0].resources[0].url" alt="" class=" bg-slate-400 ">
         </figure>
         
         <div class="flex flex-col w-full p-5 border-l border-gray-300">
@@ -12,19 +12,22 @@
             
             <!-- Description -->
             <div class="flex justify-between mt-2 mb-3">
-                <p class="text-justify w-9/12 text-gray-800">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius eligendi amet nobis veritatis. Ab delectus ad vero sed repudiandae placeat quasi! Sequi, eligendi earum. Hic expedita aspernatur odio quasi? Ipsa?</p>
+                <p class="text-justify w-9/12 text-gray-800" v-text="props.item.description"></p>
 
                 <span class="mr-10 text-2xl text-gray-800" 
                     :class="{'scale-110 transition-transform animate-spin': animationPrice}"
                     >
-                    ${{ prodPrice(props.item.name) }}
+                    ${{ prodPrice(props.item.id) }}
                 </span>
             </div>
 
             <!-- Category -->
-            <div class="flex justify-start my-3">
-                <router-link :to="{name: 'ListProduct',params: {keyword: 'category1'}}" ><!-- class="bg-amber-400 text-gray-800 px-5 py-2 rounded-lg w-32"  -->
-                    <span class="text-sm text-amber-800 bg-amber-200 px-3 py-2 rounded-lg my-5">category</span>
+            <div class="flex justify-start my-3 gap-5">
+                <router-link
+                    v-for="(category,index) in props.item.marketplace_categories" 
+                    :key="index" 
+                    :to="{name: 'ListProduct',params: {keyword: category.alias}} " >
+                    <span class="text-sm text-amber-800 bg-amber-200 px-3 py-2 rounded-lg my-5" v-text="category.alias"></span>
                 </router-link>                
             </div>
             

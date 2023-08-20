@@ -1,26 +1,26 @@
 <template>
     <MainLayout>
-        <article v-if="productsAPI" class="flex w-full flex-col md:flex-row">
+        <article v-if="productsAPI[0]" class="flex w-full flex-col md:flex-row">
                         
                 <figure class="flex w-full h-auto md:w-1/2">
-                    <img :src="productsAPI.src" alt="">
+                    <img :src="productsAPI[0].src" alt="">
                 </figure>
 
                 <!-- Detalles del Producto -->
                 <div class="w-full md:w-5/12">
                     <!-- Title -->
-                    <h3 class="text-justify font-bold text-2xl my-10 text-sky-800 capitalize">{{ productsAPI.alias }}</h3>
+                    <h3 class="text-justify font-bold text-2xl my-10 text-sky-800 capitalize">{{ productsAPI[0].alias }}</h3>
 
                     <!-- Price -->
                     <div class="flex gap-5 mb-10">
-                        <div class="text-amber-400 font-bold text-3xl">${{ productsAPI.price }}</div>
-                        <div class="line-through">${{ productsAPI.price_discount }}</div>
+                        <div class="text-amber-400 font-bold text-3xl">${{ productsAPI[0].price }}</div>
+                        <!-- <div class="line-through">${{ productsAPI[0].price_discount }}</div> -->
                     </div>
 
                     <!-- Descripcion -->
                     <div class="text-justify mb-10 grid grid-cols-1 gap-2">
                         <p class="font-bold">Descripcion: </p>
-                        <p class="leading-7">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores laboriosam tenetur tempora quae enim! Delectus consectetur, laudantium ad nulla obcaecati corporis facere officia fugit similique esse aperiam veniam quia ea.</p>
+                        <p class="leading-7" v-text="productsAPI[0].description"></p>
                     </div>
 
                     <!-- Cart -->
@@ -28,11 +28,12 @@
 
                         <!-- Caracteristicas -->
                         <div class="flex gap-5">
-                            <router-link :to="{name: 'ListProduct',params: { category: product.category}}" class="text-sm text-amber-800 bg-amber-200 px-3 py-2 rounded-lg my-5" >{{ product.category }}</router-link>
+                            <!-- <router-link :to="{name: 'ListProduct',params: { category: product.category}}" class="text-sm text-amber-800 bg-amber-200 px-3 py-2 rounded-lg my-5" >{{ product.category }}</router-link> -->
+                            <router-link :to="{name: 'ListProduct',params: { keyword: productsAPI[0].marketplace_categories[0].alias}}" class="text-sm text-amber-800 bg-amber-200 px-3 py-2 rounded-lg my-5" >{{ productsAPI[0].marketplace_categories[0].alias }}</router-link>
                         </div>
                             
                         <!-- Not Available -->
-                        <div class="flex gap-5 items-center" v-if="!product.available">
+                        <div class="flex gap-5 items-center" v-if="!productsAPI[0].active">
                             <div class="bg-gray-300 text-gray-800 px-5 py-2 rounded-lg w-60" >No Disponible</div>
                             <button title="lo deseo"><i class="fas fa-heart text-red-500 fa-lg hover:scale-125"></i></button>
                         </div>                        
@@ -40,14 +41,14 @@
                         <!-- Available -->
                         <div class="flex flex-col md:flex-row gap-8 justify-between items-start md:items-center" v-else>
                             
-                            <btn-add-less :item="product"/>
+                            <btn-add-less :item="productsAPI[0]"/>
                             
                             <!-- Add Less -->
-                            <button class="bg-amber-400 px-5 py-2 rounded-lg text-gray-800 w-full md:w-4/12" @click="navigateToCart()" v-if="product.available">Añadir</button>
+                            <button class="bg-amber-400 px-5 py-2 rounded-lg text-gray-800 w-full md:w-4/12" @click="navigateToCart" v-if="productsAPI[0].active">Añadir</button>
                             <!-- Add Less -->
-                            <button class="bg-gray-300 px-5 py-2 rounded-lg text-gray-800 w-full md:w-4/12" :disabled="!product.available" v-else >Añadir</button>
+                            <button class="bg-gray-300 px-5 py-2 rounded-lg text-gray-800 w-full md:w-4/12" :disabled="!productsAPI[0].active" v-else >Añadir</button>
                             <!-- Pagar -->
-                            <button class="bg-amber-400 px-5 py-2 rounded-lg text-gray-800 w-full md:w-8/12">Pagar</button>
+                            <button class="bg-amber-400 px-5 py-2 rounded-lg text-gray-800 w-full md:w-8/12" @click="goBuy">Pagar</button>
                         </div>
 
                     </div>
@@ -66,7 +67,9 @@ import MainLayout from '@/layouts/MainLayout.vue'
 import BtnAddLess from '@/components/BtnAddLess'
 import { useRoute,useRouter } from 'vue-router'
 import { productsService } from '@/services/products.service'
+import {useAuthStore} from "@/store/authStore"
 
+const authStore = useAuthStore();
 
 const route = useRoute()
 const router = useRouter()
@@ -116,6 +119,21 @@ onBeforeMount(async () => {
         throw error
     }
 });
+
+
+const navigateToCart = () => {
+    
+    router.push({ name: 'ShoppingCart'})
+    
+}
+
+
+const goBuy = () => {
+    if(!authStore.is_login)
+        router.push({ name: 'Login'})
+    else
+        router.push({ name: 'BuyForm'})
+}
 
 </script>
 

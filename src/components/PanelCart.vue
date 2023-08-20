@@ -32,7 +32,6 @@ const goBuy = () => {
         router.push({ name: 'Login'})
     else
         router.push({ name: 'BuyForm'})
-
 }
 
 </script>

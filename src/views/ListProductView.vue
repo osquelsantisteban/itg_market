@@ -1,9 +1,9 @@
 <template>
     <MainLayout>
         
-        <section class="flex md:relative gap-10 flex-col md:flex-row">
+        <section class="flex gap-10 flex-row flex-wrap">      
             <!-- Panel Lateral -->
-            <FilterTemplate @updFilter="applyFiler" @updCategory="applyCategory"/>
+            <!-- <FilterTemplate @updFilter="applyFiler" @updCategory="applyCategory"/> -->
             
             <!-- Section de Productos -->
             
@@ -14,7 +14,7 @@
                     <span class="text-lg text-white" v-text="errorMessage"></span>
                 </div>
                 <h3 class="text-sky-800 text-2xl capitalize" v-if="category">{{ category }}</h3>
-                <div class="flex justify-end"><select class="w-24"><option value="">precio</option><option value="">más populares</option></select></div>
+                <!-- <div class="flex justify-end"><select class="w-24"><option value="">precio</option><option value="">más populares</option></select></div> -->
                 <section class="flex flex-wrap gap-5 justify-items-center" v-if="productsAPI.length>0">                    
                     <CardListTemplate  v-for="(item, index) in productsAPI" :key="index" :item="item" class=""/>                    
                 </section>
@@ -32,14 +32,14 @@
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import CardListTemplate from '@/components/CardListTemplate.vue'
-import FilterTemplate from '@/components/FilterTemplate.vue'
+// import FilterTemplate from '@/components/FilterTemplate.vue'
 import { ref,onBeforeMount } from 'vue'
 import { categoriesService } from '@/services/categories.service'
 import { productsService } from '@/services/products.service'
 
 import { useRoute,useRouter } from 'vue-router'
 import { computed } from 'vue'
-import { useSearchStore } from '@/store/searchStore'
+// import { useSearchStore } from '@/store/searchStore'
 
 // import { useCartStore } from '@/store/cartStore'
 
@@ -47,7 +47,7 @@ import { useSearchStore } from '@/store/searchStore'
 const route = useRoute()
 const router = useRouter()
 const loading = ref(true)
-const searchStore = useSearchStore()
+// const searchStore = useSearchStore()
 let error = ref(false)
 let errorMessage = ref('Error al consultar los datos, por favor intente más tarde')
 
@@ -55,9 +55,9 @@ const category = computed(() => route.params.keyword)
 const categoriesAPI = ref([])
 const productsAPI = ref([])
 
-const applyCategory = (item) => {
-    fetchData(item.alias);    
-}
+// const applyCategory = (item) => {
+//     fetchData(item.alias);    
+// }
 
 onBeforeMount(() => {
   fetchData(category.value);
@@ -95,9 +95,9 @@ const fetchData = async (item) => {
   }
 }
 
-const applyFiler = () => {
-    productsAPI.value.map(el => el.price >= searchStore.min && el.price <= searchStore.max)
-}
+// const applyFiler = () => {
+//     productsAPI.value.map(el => el.price >= searchStore.min && el.price <= searchStore.max)
+// }
 
 </script>
 

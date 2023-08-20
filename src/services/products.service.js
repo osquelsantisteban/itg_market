@@ -64,15 +64,24 @@ export const productsService = {
 
     // getProduct by keyword
     async getProductKeyword(keyword) {
-        let url = `/marketplace-items/${keyword}`
+
+        if(!authStore.token) authStore.getToken()
+
+        let options = {
+            url: '/marketplace-items/search-by-criteria',
+            method: 'post',
+            token: authStore.token,
+            data: { keyword: keyword }
+        }
+        
         try {
-            let res = await apiService.request({ url })
+            let res = await apiService.request(options)
             if(!res) throw {msg: 'Error en la solicitud del producto',error: res};
 
             return res;
 
         } catch (error) {            
-            let errorMessage = `Error ${error.response?.status}: ${error.response?.statusText}\nURL: ${url}\nResponse data: ${JSON.stringify(error.response?.data)}`;
+            let errorMessage = `Error ${error.response?.status}: ${error.response?.statusText}\nURL: ${options.url}\nResponse data: ${JSON.stringify(error.response?.data)}`;
             throw new Error(errorMessage);
         }
     },
