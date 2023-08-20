@@ -31,7 +31,11 @@ const routes = [
   {
     path: '/buyform',
     name: 'BuyForm',
-    component: () => import (/* webpackChunkName: "shopping_cart" */ '@/views/BuyFormView.vue')
+    component: () => import (/* webpackChunkName: "shopping_cart" */ '@/views/BuyFormView.vue'),
+    //vista protegida
+    meta: {
+      login: true
+    }
   },
   // Orders List
   {

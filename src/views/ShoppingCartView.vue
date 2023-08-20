@@ -6,13 +6,13 @@
                 <PanelCart />
             </div>            
         </div>
-        <div v-else class="flex w-full gap-5">
+        <div v-else class="flex flex-col-reverse lg:flex-row w-full gap-5">
                 
-                <div class="flex flex-col gap-5 w-9/12" :class="{'style-remove-all': isClear }">
-                    <CartLisTemplate v-for="(item, index) in cart.prods" :key="index" :item="item" />                    
-                </div>
+            <div class="flex flex-col gap-5 lg:w-9/12" :class="{'style-remove-all': isClear }">
+                <CartLisTemplate v-for="(item, index) in cart.prods" :key="index" :item="item" />                    
+            </div>
 
-            <div class="w-3/12">
+            <div class="lg:w-3/12">
                 <PanelCart @clearProducts="clearCart"/>
             </div>
         </div>

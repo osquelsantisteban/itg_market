@@ -2,8 +2,8 @@
     <div class="flex flex-col w-full rounded-lg border border-gray-300 gap-5 items-center p-5 pb-10">
         Subtotal: {{ cart.totalPrice }}
         <button class="btn-clear" @click="clearCart()">Vaciar</button>
-        <button class="btn-go-back" @click="goBack()">Seguir</button><!-- TODO Link to history back @click="" -->
-        <button class="btn-buy" >Pagar</button><!-- TODO Link to buyView @click="" -->
+        <button class="btn-go-back" @click="goBack()">Seguir</button>
+        <button class="btn-buy"  @click="goBuy()">Pagar</button><!-- TODO Link to buyView @click="" -->
     </div>
 </template>
 
@@ -12,7 +12,9 @@
 import { useCartStore } from '@/store/cartStore'
 import { defineEmits } from 'vue';
 import { useRouter } from 'vue-router'
+import {useAuthStore} from "@/store/authStore"
 
+const authStore = useAuthStore();
 const router = useRouter()
 const cart = useCartStore()
 
@@ -23,6 +25,14 @@ const clearCart = () => {
 
 const goBack = () => {
     router.go(-1)
+}
+
+const goBuy = () => {
+    if(!authStore.is_login)
+        router.push({ name: 'Login'})
+    else
+        router.push({ name: 'BuyForm'})
+
 }
 
 </script>

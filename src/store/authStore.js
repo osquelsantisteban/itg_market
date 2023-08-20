@@ -123,6 +123,34 @@ export const useAuthStore = defineStore('authStore',{
         clearToken() {
             this.token = null
         },
+
+        async register(data){
+            let result = false
+            try {
+                
+                if(!this.token) this.getToken()
+                
+                let options = {
+                    url: '/marketplace-user/create',
+                    method: 'post',
+                    token: this.token,
+                    data
+                }
+                
+                const res = await apiService.request(options)
+                console.log(res)
+                if(!res) throw {message: 'Error en register',result: res}
+                if(res.statusCode === 200)
+                    result = true
+                return result
+                
+            } catch (error) {
+                console.log(error)
+                throw Error(error)
+            }
+            // return result
+
+        }
         
     },
     persist: true

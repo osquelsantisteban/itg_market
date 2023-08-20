@@ -1,113 +1,234 @@
 <template>
     <MainLayout>
   
-      <section class="flex flex-col md:flex-row w-full justify-between bg-white p-5 mb-4 gap-10">
+      <section class="flex flex-col lg:flex-row w-full justify-between bg-white p-5 mb-4 gap-10">
   
-        <figure class="w-full">
+        <figure class="w-full flex justify-center bg-contain">
           <img src="http://via.placeholder.com/640x360" alt="">
         </figure>
   
-        <div class="flex flex-col items-center justify-center w-full">
+        <form class="flex flex-col items-center justify-center w-full" @submit="sendRequest">
 
           <!-- Title -->
           <div class="mb-5 w-full">
             <h4>Registrarse</h4>
           </div>
+          
+          
+          <div class="flex flex-col md:flex-row gap-5 w-full mb-2">
 
-          <!-- Nombre y Apellidos -->
-          <div class="mb-5 w-full">
-              <div class="flex gap-5 w-full">
-                  <div class="block w-1/2">
-                    <input class="input_form"
-                    :class="{ 'input_form_error': errors.name}"
-                    v-model="form.name"
-                    @input="validateNameRules"
-                    type="text"
-                    placeholder="Nombre">
-                    <span class="span_error">{{ errors.name }}</span>
-                  </div>
-
-                  <div class="block w-1/2">
-                    <input class="input_form"
-                    :class="{ 'input_form_error': errors.last_name}"
-                    v-model="form.last_name"
-                    @input="validateLastNameRules"
-                    type="text"
-                    placeholder="Apellidos">
-                    <span class="span_error">{{ errors.last_name }}</span>
-                  </div>
+              <!-- Nombre -->
+              <div class="w-full mb-2">
+                <input class="input_form"
+                :class="{ 'input_form_error': errors.first_name}"
+                v-model="form.first_name"
+                @input="validateNameRules"
+                type="text"
+                placeholder="Nombre*">
+                <span class="span_error">{{ errors.first_name }}</span>
               </div>
+    
+              <!-- Apellidos -->
+              <div class="w-full mb-2">
+                <input class="input_form"
+                :class="{ 'input_form_error': errors.last_name}"
+                v-model="form.last_name"
+                @input="validateLastNameRules"
+                type="text"
+                placeholder="Apellidos*">
+                <span class="span_error">{{ errors.last_name }}</span>
+              </div>
+
           </div>
 
-          <!-- Email -->
-          <div class="mb-5 w-full">
+
+          <div class="flex flex-col md:flex-row gap-5 w-full mb-2">
+            
+            <!-- Email -->
+            <div class="w-full  mb-2">
               <input class="input_form"
               :class="{ 'input_form_error': errors.email}"
               v-model="form.email"
               @input="validateEmailRules"
               type="email"
-              placeholder="Email">
+              placeholder="Email*">
               <span class="span_error">{{ errors.email }}</span>
+            </div>
+
+            <!-- Phone -->
+            <div class="w-full  mb-2">
+              <input class="input_form"
+              :class="{ 'input_form_error': errors.phone}"
+              v-model="form.phone"
+              @input="validatePhoneRules"
+              type="tel"
+              placeholder="Teléfono*">
+              <span class="span_error">{{ errors.phone }}</span>
+            </div>
+            
           </div>
 
 
-          <div class="flex flex-row mb-5 w-full gap-3">
+          <div class="flex flex-col md:flex-row gap-5 w-full mb-2">
               
               <!-- Password -->
-              <div class="block w-1/2">
+              <div class="w-full  mb-2">
                 <input class="input_form"
                 :class="{ 'input_form_error': errors.password}"
                 v-model="form.password"
                 @input="validatePassword"
                 type="password"
-                placeholder="Escriba la contraseña">
+                placeholder="Contraseña*">
                 <span class="span_error">{{ errors.password }}</span>
               </div>
 
               <!-- Confirmacion Password -->
-              <div class="block w-1/2">
+              <div class="w-full  mb-2">
                 <input class="input_form"
                 :class="{ 'input_form_error': errors.confirm_password}"
                 v-model="form.confirm_password"
                 @input="validateConfirmPassword"
                 type="password"
-                placeholder="Confirme la contraseña">
-                <span class="span_error">{{ errors.confirm_password }}</span>            
+                placeholder="Confirme la contraseña*">
+                <span class="span_error">{{ errors.confirm_password }}</span>
               </div>
 
-          </div>              
-
-          <!-- Address -->
-          <div class="mb-5 w-full">
-              <input class="input_form"
-              :class="{ 'input_form_error': errors.address}"
-              v-model="form.address"
-              type="text"
-              placeholder="Dirección">
-              <span class="span_error">{{ errors.address }}</span>
           </div>
 
-          <!-- Phone -->
-          <div class="mb-5 w-full">
-              <input class="input_form"
-              :class="{ 'input_form_error': errors.phone}"
-              v-model="form.phone"
-              @input="validatePhoneRules"
-              type="text"
-              placeholder="Teléfono">
-              <span class="span_error">{{ errors.phone }}</span>
+
+          <div class="flex flex-col md:flex-row gap-5 w-full mb-2">
+              
+              <!-- Country -->
+              <div class="w-full mb-2">
+                <model-select :options="countries"
+                    placeholder="País*"
+                    v-model="form.country"                    
+                    required
+                    class="input_form"
+                    :class="{'input_form_error': errors.country}">
+                </model-select>
+                <span class="span_error">{{ errors.country }}</span>
+              </div>
+
+              <!-- zip_code -->
+              <div class="w-full  mb-2">
+                <input class="input_form"
+                :class="{ 'input_form_error': errors.confirm_password}"
+                v-model="form.zip_code"
+                @input="validateConfirmPassword"
+                type="text"
+                placeholder="Código postal">
+                <span class="span_error">{{ errors.confirm_password }}</span>
+              </div>
+
           </div>
+
+
+          <div class="flex flex-col md:flex-row gap-5 w-full mb-2">
+
+              <!-- Province -->
+              <div class="w-full  mb-2">
+                <model-select :options="provinces"
+                        placeholder="Provincia*"
+                        v-model="form.province"
+                        @searchchange="updProvince"
+                        required
+                        class="input_form"
+                        :class="{'input_form_error': errors.province}">
+                </model-select>
+                <span class="span_error">{{ errors.province }}</span>
+              </div>
+
+              <!-- City -->
+              <div class="w-full  mb-2">
+                <div class="py-6 text-3xl" v-show="loadingCities">
+                    <i class="fa fa-spinner fa-pulse"></i>
+                </div>
+                <model-select 
+                  :options="cities"
+                  v-show="!loadingCities"
+                  v-model="form.city"
+                  placeholder="Municipio*"
+                  required                                        
+                  class="input_form"
+                  :class="{'input_form_error': errors.city}">
+                </model-select>
+                <span class="span_error">{{ errors.city }}</span>
+              </div>              
+
+          </div>
+
+          <div class="flex flex-col md:flex-row gap-5 w-full mb-2">
+
+            <!-- Address -->
+            <div class="w-full mb-2">
+                <input class="input_form"
+                :class="{ 'input_form_error': errors.address}"
+                v-model="form.address"
+                type="text"
+                placeholder="Dirección">
+                <span class="span_error">{{ errors.address }}</span>
+            </div>
+
+            <!-- Gender -->
+            <div class="w-full mb-2">
+              <model-select 
+                :options="genders"
+                v-model="form.gender"
+                placeholder="Genero*"
+                required                                        
+                class="input_form"
+                :class="{'input_form_error': errors.gender}">
+              </model-select>
+                <span class="span_error">{{ errors.gender }}</span>
+            </div>
+          </div>
+
+
+          <!-- <div class="flex justify-items-start mb-2 w-full gap-2">
+            <input type="checkbox" >
+            <label>Agencia</label>
+          </div>
+
+          <div class="flex flex-col md:flex-row gap-5 w-full mb-2">
+
+              
+              <div class="w-full  mb-2">
+                <input class="input_form"
+                :class="{ 'input_form_error': errors.confirm_password}"
+                v-model="form.confirm_password"
+                @input="validateConfirmPassword"
+                type="text"
+                placeholder="i_a_t_a">
+                <span class="span_error">{{ errors.confirm_password }}</span>
+              </div>
+
+              
+              <div class="w-full  mb-2">
+                <input class="input_form"
+                :class="{ 'input_form_error': errors.password}"
+                v-model="form.password"
+                @input="validatePassword"
+                type="text"
+                placeholder="Company">
+                <span class="span_error">{{ errors.password }}</span>
+              </div>              
+
+          </div> -->
+    
+
         
           
           <!-- Enviar -->
           <div class="flex items-center justify-end mb-5 w-full">                
-              <button class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded" type="button"
-              @click="sendRequest()">
+              <button class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded" type="submit"
+              @click="sendRequest">
               Enviar
               </button>
           </div>
           
-        </div>
+
+        </form>        
   
       </section>
     </MainLayout>
@@ -115,28 +236,80 @@
   
 <script setup>
 import MainLayout from '@/layouts/MainLayout.vue'
-import { ref } from "vue";
+import { ref,onBeforeMount,watch } from "vue";
 import useFormValidation  from '@/composables/validation'
 
-//   import {useAuthStore} from "@/store/authStore"
-//   const authStore = useAuthStore();
+import { ModelSelect } from 'vue-search-select';
+import 'vue-search-select/dist/VueSearchSelect.css';
+import { provincesService } from '@/services/provinces.service';
+import { citiesService } from '@/services/cities.service';
+import { genderService } from '@/services/gender.service';
+import { countriesService } from '@/services/country.service';
+import {useAuthStore} from "@/store/authStore"
+
+const authStore = useAuthStore();
 
 const { validateOnlyText,validatePhone,validateEmail } = useFormValidation()
 
-const errors = ref({})  
+const errors = ref({})
+const countries = ref([])
+const provinces = ref([])
+const genders = ref([])
+const cities = ref([])
+const loadingCities = ref(false)
+
 const form = ref({
-    name: '',
+    first_name: '',
     last_name: '',
     email: '',
+    phone: '',
     password: '',
     confirm_password: '',
+    country: '',
+    zip_code: '',
+    province: '',
+    city: '',
     address: '',
-    phone: '',
+    gender: '',
+    is_travel_agency: false,
+    i_a_t_a: '',
+    company: '',
+    roles: [9]
   });
-  
-const getFields = () => {
-  return Object.keys(form.value);
-};
+
+
+onBeforeMount(async () => {
+    
+    const results = await Promise.all([
+      countriesService.getSimpleList(),
+      provincesService.getSimpleList(),
+      genderService.getSimpleList(),
+    ]);
+
+    countries.value = results[0];
+    provinces.value = results[1];
+    genders.value = results[2];
+})
+
+
+// Cada vez que se cambia la provincia se actualiza el municipio
+const updProvince = async () => {    
+    try {
+        loadingCities.value = true
+        cities.value = await citiesService.getSimpleList(form.value.province)
+        
+    } catch (error) {        
+        console.log(error)
+    }finally{
+        loadingCities.value = false        
+    }
+}
+
+// Se observa la provincia
+watch(() => form.value.province, () => {
+    updProvince();
+});
+
 
 const validateRequired = (requiredList) => {
     let validateRulesRequired = true
@@ -178,27 +351,66 @@ const validateConfirmPassword = () => {
 };
 
 
-let validateNameRules     = () => validateField('name', validateOnlyText, 'El nombre no es válido');
+let validateNameRules     = () => validateField('first_name', validateOnlyText, 'El nombre no es válido');
 let validateLastNameRules = () => validateField('last_name', validateOnlyText, 'El apellido no es válido');
 let validateEmailRules    = () => validateField('email', validateEmail, 'El email no es válido');
 let validatePhoneRules    = () => validateField('phone', validatePhone, 'El teléfono no es válido');
 
 
-const sendRequest = (async () => {
+const convertObj = (obj) => {
 
-  let requiredList = getFields()
+  const ob = JSON.parse(JSON.stringify(obj))
+
+    const newObj = {
+        ...ob,
+        gender_id: ob.gender,
+        country_id: ob.country,
+        password: authStore.encryptPass(ob.password)
+    };
+
+    // Eliminar claves no deseadas
+    delete newObj.confirm_password;
+    delete newObj.gender;
+    delete newObj.country;
+
+    return newObj;
+};
+
+const sendRequest = async (e) => {
+  e.preventDefault();
+
+  // Campos requeridos
+  let requiredList = [
+    'first_name',
+    'last_name',
+    'email',
+    'phone',
+    'password',
+    'confirm_password',
+    'country',
+    'zip_code',
+    'province',
+    'city',
+    'address',
+    'gender',
+  ];
+
   if(!validateRequired(requiredList)) return alert('Error de validación')
 
-  let msg = 
-  `nombre ${form.value.name}
-  apellido ${form.value.last_name}
-  email ${form.value.email}
-  password ${form.value.password}
-  confirm_password ${form.value.confirm_password}
-  address ${form.value.address}
-  phone ${form.value.phone}`
-  alert(msg)    
-})
+  let data = convertObj(form.value)
+  try {
+    let registro = await authStore.register(data)
+    
+    if (registro) 
+      return alert('ok')
+    return alert('NOK')
+    
+  } catch (error) {
+    console.log(error)
+    return alert('NOK catch')
+  }
+
+}
 
 </script>
   <style scoped>
