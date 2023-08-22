@@ -56,10 +56,10 @@
         <!-- Navigation -->
         <nav class="absolute top-14 right-0 transition-opacity delay-100 bg-slate-800/70 text-white" v-show="openMenu">
           <ul class="w-full py-5">            
-            <li>p2</li>
+            <!-- <li>p2</li>
             <li>p3</li>
-            <li>p4</li>
-            <li><button @click="closeSession">Cerrar Sesión</button></li>
+            <li>p4</li> -->
+            <li v-if="auth.is_login"><button @click="closeSession">Cerrar Sesión</button></li>
           </ul>
         </nav>
       </div>

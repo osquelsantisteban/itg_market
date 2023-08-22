@@ -1,6 +1,18 @@
 <template>
     <MainLayout>
+
+        
         <section class="grid grid-cols-1 gap-14 items-center" v-if="filteredProducts.length">
+            <!-- Iconos -->
+            <section class="flex flex-wrap">
+                <figure><img src="@/assets/images/icono_ASEO_azul.svg" alt="icono ASEO"></figure>
+                <figure><img src="@/assets/images/icono_CARNICO_azul.svg" alt="icono CARNICO"></figure>
+                <figure><img src="@/assets/images/icono_CERVEZA_azul.svg" alt="icono CERVEZA"></figure>
+                <figure><img src="@/assets/images/icono_CONFITURA_azul.svg" alt="icono CONFITURA"></figure>
+                <figure><img src="@/assets/images/icono_LACTEOS_azul.svg" alt="icono LACTEOS"></figure>
+                <figure><img src="@/assets/images/icono_PASTAS_azul.svg" alt="icono PASTAS"></figure>
+                <figure><img src="@/assets/images/icono_UTILEL_HOGAR_azul.svg" alt="icono UTILEL HOGAR"></figure>
+            </section>
            
            <!-- {{ filteredProducts }}    -->        
             <div class="grid grid-cols-1 gap-8" v-for="(category, index) in filteredProducts" :key="index">                          

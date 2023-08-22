@@ -64,6 +64,7 @@
 import MainLayout from '@/layouts/MainLayout.vue'
 import { ref/* ,onBeforeMount */ } from "vue";
 import {useAuthStore} from "@/store/authStore"
+import Swal from 'sweetalert2';
 import router from '@/router';
 
 const authStore = useAuthStore();
@@ -81,10 +82,21 @@ const sendRequest = async () => {
     if(login)
       router.push({ name: 'Dashboard'})
     else
-      alert('Usuario o password incorrectos')
+      return Swal.fire({
+        title: 'Error',
+        text: `Usuario o password incorrectos`,
+        icon: 'error',
+        confirmButtonColor: '#3085d6',                            
+      })
 
   } catch (error) {
     console.log(error)
+    return Swal.fire({
+        title: 'Error',
+        text: `Algo salio mal recarge la pagina e intentelo más tarde`,
+        icon: 'error',
+        confirmButtonColor: '#3085d6',                            
+      })
   }
 }
 </script>

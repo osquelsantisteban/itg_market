@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('authStore',{
                 // TODO mejorar
                 // no se authentico
                 if(!res) throw {message: 'Error en login',result: res}
-                if(!res.status === 'OK' || !res.data) return false;
+                // if(!res.status === 'OK' || !res.data) return false;
                 
                 // login ok
                 this.token = res.token
@@ -112,8 +112,8 @@ export const useAuthStore = defineStore('authStore',{
             return encrypted_pass
         },
 
-        decodeToken(token) {
-            return jwtDecode(token);
+        decodeToken() {
+            return jwtDecode(this.token);
         },
 
         setToken(token) {
@@ -138,10 +138,10 @@ export const useAuthStore = defineStore('authStore',{
                 }
                 
                 const res = await apiService.request(options)
-                console.log(res)
+                // console.log(res)
                 if(!res) throw {message: 'Error en register',result: res}
-                if(res.statusCode === 200)
-                    result = true
+                
+                result = true
                 return result
                 
             } catch (error) {
@@ -149,6 +149,32 @@ export const useAuthStore = defineStore('authStore',{
                 throw Error(error)
             }
             // return result
+
+        },
+
+        async verifyUser(data){
+            
+            try {
+                
+                // if(!this.token) this.getToken()
+                // console.log(data)
+                let options = {
+                    url: '/verify-user',
+                    method: 'post',
+                    token: data.token//this.token,
+                    // data
+                }
+                
+                const res = await apiService.request(options)
+                // console.log(res)
+                if(!res) throw {message: 'Error en register',result: res}
+                
+                return true
+                
+            } catch (error) {
+                console.log(error)
+                throw Error(error)
+            }        
 
         }
         

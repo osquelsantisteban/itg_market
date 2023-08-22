@@ -1,6 +1,6 @@
 <template>
-    <MainLayout>
-  
+    <MainLayout>      
+              
       <section class="flex flex-col lg:flex-row w-full justify-between bg-white p-5 mb-4 gap-10">
   
         <figure class="w-full flex justify-center bg-contain">
@@ -239,6 +239,8 @@ import MainLayout from '@/layouts/MainLayout.vue'
 import { ref,onBeforeMount,watch } from "vue";
 import useFormValidation  from '@/composables/validation'
 
+import Swal from 'sweetalert2';
+
 import { ModelSelect } from 'vue-search-select';
 import 'vue-search-select/dist/VueSearchSelect.css';
 import { provincesService } from '@/services/provinces.service';
@@ -274,10 +276,11 @@ const form = ref({
     is_travel_agency: false,
     i_a_t_a: '',
     company: '',
+    confirmation_link: '/verify-user',
     roles: [9]
   });
 
-
+// carga inicial
 onBeforeMount(async () => {
     
     const results = await Promise.all([
@@ -310,7 +313,7 @@ watch(() => form.value.province, () => {
     updProvince();
 });
 
-
+// valida que todos los campos requeridos este llenos
 const validateRequired = (requiredList) => {
     let validateRulesRequired = true
     requiredList.forEach((el) => {
@@ -324,6 +327,7 @@ const validateRequired = (requiredList) => {
     return validateRulesRequired;  
 }
 
+// valida ademas el formato y tipo de dato
 const validateField = (fieldName, validator, errorMessage) => {
   if (!validator(form.value[fieldName]) && form.value[fieldName] !== '') {
     errors.value[fieldName] = errorMessage
@@ -350,7 +354,7 @@ const validateConfirmPassword = () => {
   }
 };
 
-
+//<!-- TODO add mas validaciones 
 let validateNameRules     = () => validateField('first_name', validateOnlyText, 'El nombre no es válido');
 let validateLastNameRules = () => validateField('last_name', validateOnlyText, 'El apellido no es válido');
 let validateEmailRules    = () => validateField('email', validateEmail, 'El email no es válido');
@@ -362,7 +366,7 @@ const convertObj = (obj) => {
   const ob = JSON.parse(JSON.stringify(obj))
 
     const newObj = {
-        ...ob,
+        ...ob,        
         gender_id: ob.gender,
         country_id: ob.country,
         password: authStore.encryptPass(ob.password)
@@ -395,19 +399,44 @@ const sendRequest = async (e) => {
     'gender',
   ];
 
-  if(!validateRequired(requiredList)) return alert('Error de validación')
+  if(!validateRequired(requiredList)) 
+    return Swal.fire({
+      title: 'Validación',
+      text: `Error de validación`,
+      icon: 'error',
+      confirmButtonColor: '#3085d6',                            
+    }) 
 
   let data = convertObj(form.value)
   try {
     let registro = await authStore.register(data)
     
     if (registro) 
-      return alert('ok')
-    return alert('NOK')
+      
+      return Swal.fire({
+        title: 'Confirmación',
+        text: `Se realiza el registro exitosamente, revise su correo`,
+        icon: 'success',
+        confirmButtonColor: '#3085d6',                            
+      }) 
+
+    return Swal.fire({
+      title: 'Error',
+      text: `Error en la acción de registro, revise los datos e intentelo de nuevo`,
+      icon: 'error',
+      confirmButtonColor: '#3085d6',                            
+    }) 
+    
     
   } catch (error) {
     console.log(error)
-    return alert('NOK catch')
+    return Swal.fire({
+      title: 'Error',
+      text: `Error en la acción de registro, revise los datos e intentelo de nuevo`,
+      icon: 'error',
+      confirmButtonColor: '#3085d6',                            
+    }) 
+    
   }
 
 }

@@ -13,45 +13,45 @@
             </router-link>
             
             <!-- Datos Personales -->
-            <router-link to="">
+            <!-- <router-link to="">
                 <article class="group flex items-center bg-white rounded-lg p-4 gap-4 border border-sky-800 hover:scale-110 transition-all duration-200">
                     <figure class="bg-sky-800 rounded-lg h-12 w-12 text-white flex items-center justify-center group-hover:opacity-80 transition-opacity duration-200">
                         <i class="fas fa-user-circle"></i>
                     </figure>
                     <figcaption class="text-sky-800 text-lg group-hover:opacity-80 transition-opacity duration-200">Datos Personales</figcaption>
                 </article>
-            </router-link>
+            </router-link> -->
             
             <!-- Lista de Deseos -->
-            <router-link to="">
+            <!-- <router-link to="">
                 <article class="group flex items-center bg-white rounded-lg p-4 gap-4 border border-sky-800 hover:scale-110 transition-all duration-200">
                     <figure class="bg-sky-800 rounded-lg h-12 w-12 text-white flex items-center justify-center group-hover:opacity-80 transition-opacity duration-200">
                         <i class="fas fa-heart"></i>
                     </figure>
                     <figcaption class="text-sky-800 text-lg group-hover:opacity-80 transition-opacity duration-200">Lista de Deseos</figcaption>
                 </article>
-            </router-link>
+            </router-link> -->
 
             
             <!-- Beneficiarios -->
-            <router-link to="">
+            <!-- <router-link to="">
                 <article class="group flex items-center bg-white rounded-lg p-4 gap-4 border border-sky-800 hover:scale-110 transition-all duration-200">
                     <figure class="bg-sky-800 rounded-lg h-12 w-12 text-white flex items-center justify-center group-hover:opacity-80 transition-opacity duration-200">
                         <i class="fas fa-user-alt"></i>
                     </figure>
                     <figcaption class="text-sky-800 text-lg group-hover:opacity-80 transition-opacity duration-200">Beneficiarios</figcaption>
                 </article>
-            </router-link>
+            </router-link> -->
             
             <!-- Método de Pago -->
-            <router-link to="">
+           <!--  <router-link to="">
                 <article class="group flex items-center bg-white rounded-lg p-4 gap-4 border border-sky-800 hover:scale-110 transition-all duration-200">
                     <figure class="bg-sky-800 rounded-lg h-12 w-12 text-white flex items-center justify-center group-hover:opacity-80 transition-opacity duration-200">
                         <i class="fas fa-credit-card"></i>
                     </figure>
                     <figcaption class="text-sky-800 text-lg group-hover:opacity-80 transition-opacity duration-200">Método de Pago</figcaption>
                 </article>
-            </router-link>
+            </router-link> -->
         </section>
         
     </MainLayout>

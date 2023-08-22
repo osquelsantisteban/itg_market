@@ -3,69 +3,11 @@
         <!-- Formulario -->
         <section class="flex gap-5">
             <div class="flex flex-col w-11/12 gap-5">
-                <span class="text-gray-400">Los campos con * son obligatorios</span>
-                
-                <!-- Comprador -->
-                <div class="flex flex-col gap-5 my-2">
-                
-                    <div class="flex flex-col md:flex-row gap-5 w-full">
-                        <!-- Nombre del Comprador -->
-                        <div class="flex flex-col flex-1">
-                            <input type="text" placeholder="Nombre del comprador" 
-                                v-model="form.name_buy" 
-                                :disabled="form.isSamePerson" 
-                                @input="validateNameBuy"
-                                class="input_form"
-                                :class="{ 'disable': form.isSamePerson ,'input_form_error': errors.name_buy}"
-                                title="Nombre solo acepta letras y espacios en blanco">
-                            <span class="span_error">{{ errors.name_buy }}</span>
-                        </div>
-                        
-                        <!-- Apellidos del Comprador -->
-                        <div class="flex flex-col flex-1">
-                            <input type="text" placeholder="Apellidos del comprador" 
-                                v-model="form.last_name_buy" 
-                                :disabled="form.isSamePerson" 
-                                @input="validateLastNameBuy"
-                                class="input_form"
-                                :class="{ 'disable': form.isSamePerson,'input_form_error': errors.last_name_buy }"
-                                title="Apellidos solo acepta letras y espacios en blanco">
-                            <span class="span_error">{{ errors.last_name_buy }}</span>
-                        </div>
-                        
-                    </div>
-
-                    <div class="flex flex-col md:flex-row gap-5 w-full">
-                        <!-- Email del Comprador -->
-                        <div class="flex flex-col flex-1">
-                            <input type="email" placeholder="Email del comprador" 
-                                v-model="form.email_buy" 
-                                :disabled="form.isSamePerson"
-                                @input="validateEmailBuy"
-                                class="input_form"
-                                :class="{ 'disable': form.isSamePerson,'input_form_error': errors.email_buy}">
-                            <span class="span_error">{{ errors.email_buy }}</span>
-                        </div>
-                        <!-- Teléfono del Comprador -->
-                        <div class="flex flex-col flex-1">
-                            <input type="tel" placeholder="Teléfono del comprador" 
-                                v-model="form.phone_buy" 
-                                :disabled="form.isSamePerson"
-                                @input="validatePhoneBuy"
-                                class="input_form"
-                                :class="{ 'disable': form.isSamePerson,'input_form_error': errors.phone_buy }">
-                            <span class="span_error">{{ errors.phone_buy }}</span>
-                        </div>
-                    </div>
-
-                </div>
+                <span class="text-gray-400">Los campos con * son obligatorios</span>                                
 
                 <!-- Receptor -->
                 <div class="flex flex-col gap-3">
-                    <div class="flex gap-2">
-                        <input type="checkbox" v-model="form.isSamePerson" id="same_person" @click="disableIsSamePerson()">
-                        <label for="same_person" class="text-sky-800">Es la misma persona</label>                        
-                    </div>
+                    
                     <div class="flex flex-col gap-5">
 
                         <div class="flex flex-col md:flex-row gap-5 w-full">
@@ -87,6 +29,31 @@
                                     class="input_form" required
                                     :class="{'input_form_error': errors.last_name_receiver}">
                                 <span class="span_error">{{ errors.last_name_receiver }}</span>
+                            </div>
+                        </div>
+
+
+                        <div class="flex flex-col md:flex-row gap-5 w-full">
+                            <!-- Pais -->
+                            <div class="flex flex-col flex-1">
+                                <model-select 
+                                        :options="countries"                                        
+                                        v-model="form.country_receiver"
+                                        placeholder="Seleccione el País*"
+                                        required                                        
+                                        class="input_form"
+                                        :class="{'input_form_error': errors.country_receiver}">
+                                </model-select>
+                                <span class="span_error">{{ errors.country_receiver }}</span>
+                            </div>
+
+                            <!-- Dirección Receptor -->
+                            <div class="flex flex-col flex-1">
+                                <input type="text" placeholder="Dirección del receptor*" 
+                                    v-model="form.address_receiver" required
+                                    class="input_form"
+                                    :class="{'input_form_error': errors.address_receiver}">
+                                <span class="span_error">{{ errors.address_receiver }}</span>
                             </div>
                         </div>
 
@@ -120,15 +87,6 @@
                                 </model-select>
                                 <span class="span_error">{{ errors.city_receiver }}</span>
                             </div>
-                        </div>
-
-                        <!-- Dirección Receptor -->
-                        <div class="flex flex-col flex-1">
-                            <input type="text" placeholder="Dirección del receptor*" 
-                                v-model="form.address_receiver" required
-                                class="input_form"
-                                :class="{'input_form_error': errors.address_receiver}">
-                            <span class="span_error">{{ errors.address_receiver }}</span>
                         </div>
 
                         
@@ -195,33 +153,38 @@
 
 import MainLayout from '@/layouts/MainLayout.vue';
 // import PanelCart from '@/components/PanelCart.vue';
+// import bookingService from '@/services/booking.service';
+import Swal from 'sweetalert2';
 import { ref,onBeforeMount,watch/*computed,defineExpose */ } from 'vue';
 import useFormValidation  from '@/composables/validation';
 import { ModelSelect } from 'vue-search-select';
 import 'vue-search-select/dist/VueSearchSelect.css';
+import { countriesService } from '@/services/country.service';
 import { provincesService } from '@/services/provinces.service';
 import { citiesService } from '@/services/cities.service';
+import {useAuthStore} from "@/store/authStore"
+
+const authStore = useAuthStore();
 
 const { validateOnlyText,validateOnlyInteger,validatePhone,validateCi,validateEmail } = useFormValidation()
 const errors = ref({})
 const provinces = ref([])
 const cities = ref([])
+const countries = ref([])
 const loadingCities = ref(false)
 
 onBeforeMount(async () => {
-    provinces.value = await provincesService.getSimpleList()
+    // provinces.value = await provincesService.getSimpleList()
+    [provinces.value,countries.value] = await Promise.all([
+        provincesService.getSimpleList(),
+        countriesService.getSimpleList()
+    ])
 })
 
 const form = ref({
-    // Comprador
-    name_buy: '',
-    last_name_buy: '',
-    email_buy: '',
-    phone_buy: '',
-    // Receptor
-    isSamePerson: false,
     name_receiver: '',
     last_name_receiver: '',
+    country_receiver:'',
     province_receiver: null,
     city_receiver: null,
     address_receiver: '',
@@ -229,6 +192,7 @@ const form = ref({
     phone_receiver: '',
     postal_code_receiver: '',
     ci_receiver: '',
+    obs: ''
 })
 
 // Cada vez que se cambia la provincia se actualiza el municipio
@@ -249,19 +213,6 @@ watch(() => form.value.province_receiver, () => {
     updProvince();
 });
 
-
-const disableIsSamePerson = () => {
-    if (!form.value.isSamePerson) {
-        form.value.name_buy = ''
-        form.value.last_name_buy = ''
-        form.value.email_buy = ''
-        form.value.phone_buy = ''
-    }
-}
-
-const getFields = () => {
-  return Object.keys(form.value);
-};
 
 const validateField = (fieldName, validator, errorMessage) => {
   if (!validator(form.value[fieldName]) && form.value[fieldName] !== '') {
@@ -285,12 +236,7 @@ const validateRequired = (requiredList) => {
     return validateRulesRequired;  
 }
 
-// Validacion Comprador
-let validateNameBuy     = () => validateField('name_buy', validateOnlyText, 'El nombre no es válido');
-let validateLastNameBuy = () => validateField('last_name_buy', validateOnlyText, 'El apellido no es válido');
-let validateEmailBuy    = () => validateField('email_buy', validateEmail, 'El email no es válido');
-let validatePhoneBuy    = () => validateField('phone_buy', validatePhone, 'El teléfono no es válido');
-
+//<!-- TODO revisar las validaciones
 // Validacion Receptor
 let validateNameReceiver        = () => validateField('name_receiver', validateOnlyText, 'El nombre no es válido');
 let validateLastNameReceiver    = () => validateField('last_name_receiver', validateOnlyText, 'El apellido no es válido');
@@ -299,13 +245,29 @@ let validatePhoneReceiver       = () => validateField('phone_receiver', validate
 let validatePostalCodeReceiver  = () => validateField('postal_code_receiver', validateOnlyInteger, 'El código postal no es válido');
 let validateCIReceiver          = () => validateField('ci_receiver', validateCi, 'El CI no es válido');
 
+
+const getDestination = (id) => {
+    return countries.value.filter(el => el.value === id)
+}
+
+const getProvince = (id) => {    
+    return provinces.value.filter(el => el.value === id)
+}
+
+const getCity = (id) => {
+    return cities.value.filter(el => el.value === id)
+}
+
+
+
 const sendToBuy = (e) => {
     e.preventDefault();
+    // console.log(authStore.decodeToken())
+    console.log(authStore.decodeToken().client.name)
+    console.log(authStore.decodeToken().client.email)
 
-    let requiredList = [];
-    if(form.value.isSamePerson)
-        // Solo estos son requeridos
-        requiredList = [
+    // Solo estos son requeridos
+    let requiredList = [
             'name_receiver',
             'last_name_receiver',
             'email_receiver',
@@ -314,33 +276,63 @@ const sendToBuy = (e) => {
             'city_receiver',
             'address_receiver',
             'ci_receiver'
-        ]
-    else
-        // Todos son obligatorios
-        requiredList = getFields()
+    ]
     
     // si validate fail
-    if(!validateRequired(requiredList)) return alert('Error de validación')
+    if(!validateRequired(requiredList)) 
+        return Swal.fire({
+            title: 'Validación',
+            text: `Error de validación, revise los datos introducidos`,
+            icon: 'error',
+            confirmButtonColor: '#3085d6',                            
+        })
         
     // si validate is OK
-    console.log(`Nombre Comprador ${form.value.name_buy}`)
-    console.log(`Nombre Receptor ${form.value.name_receiver}`)
+    // console.log('province_receiver',form.value.province_receiver)
+    // console.log(getProvince(form.value.province_receiver))
+    let destinationText = getDestination(form.value.country_receiver) ? getDestination(form.value.country_receiver)[0].text : ''
+    let provinceText    = getProvince(form.value.province_receiver) ? getProvince(form.value.province_receiver)[0].text : ''
+    let cityText        = getCity(form.value.city_receiver) ? getCity(form.value.city_receiver)[0].text : ''
 
-    console.log(`Apellidos Comprador ${form.value.last_name_buy}`)
-    console.log(`Apellidos Receptor ${form.value.last_name_receiver}`)
+    console.log(destinationText)
+    console.log(provinceText)
+    console.log(cityText)
+    
+    // console.log(authStore.decodeToken())
+    // let data = {
+    //     description: form.value.obs,
+    //     destination: destinationText,
+    //     email: authStore.decodeToken().client.email,
+    //     name: authStore.decodeToken().client.name,
+    //     phone: 'phone',//TODO
+    //     price: 100, //TODO
+    //     product: 'MarketItem',
+    //     deliver: {
+    //         name: form.value.name_receiver,
+    //         lastname: form.value.last_name_receiver,
+    //         dni: form.value.ci_receiver,
+    //         phone: form.value.phone_receiver,
+    //         address: form.value.address_receiver,            
+    //     },
+    //     prod:{
+    //         //TODO
+    //     }
+    // }
+    // console.log(data)
 
-    console.log(`Email Comprador ${form.value.email_buy}`)
-    console.log(`Email Receptor ${form.value.email_receiver}`)
-
-    console.log(`Phone Comprador ${form.value.phone_buy}`)
-    console.log(`Phone Receptor ${form.value.phone_receiver}`)
-
-    console.log(`Address Receptor ${form.value.address_receiver}`)
-    console.log(`Codigo Postal Receptor ${form.value.postal_code_receiver}`)
-
-    console.log(`Province Receptor ${form.value.province_receiver}`)
-    console.log(`city Receptor ${form.value.city_receiver}`)
-    console.log(`ci Receptor ${form.value.ci_receiver}`)
+    // bookingService.create(data)
+    
+    // console.log(`Nombre Receptor ${form.value.name_receiver}`)
+    // console.log(`Apellidos Receptor ${form.value.last_name_receiver}`)
+    // console.log(`Email Receptor ${form.value.email_receiver}`)
+    // console.log(`Phone Receptor ${form.value.phone_receiver}`)
+    // console.log(`Address Receptor ${form.value.address_receiver}`)
+    // console.log(`Codigo Postal Receptor ${form.value.postal_code_receiver}`)
+    // console.log(`Country ${form.value.country_receiver}`)
+    // console.log(`Province Receptor ${form.value.province_receiver}`)
+    // console.log(`city Receptor ${form.value.city_receiver}`)
+    // console.log(`ci Receptor ${form.value.ci_receiver}`)
+    // console.log(`Obs ${form.value.obs}`)
 }
 
 </script>

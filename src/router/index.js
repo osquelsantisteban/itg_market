@@ -74,6 +74,15 @@ const routes = [
       login: false
     }
   },
+  // Verify user
+  {
+    path: '/verify-user/:token',
+    name: 'VerifyUser',
+    component: () => import (/* webpackChunkName: "/verify_user" */ '@/views/auth/VerifyUserView.vue'),    
+    meta: {
+      login: false
+    }
+  },
   // Register
   {
     path: '/register',

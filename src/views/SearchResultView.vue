@@ -1,9 +1,10 @@
 <template>
     <MainLayout>
         
-        <section class="flex md:relative gap-10 flex-col md:flex-row">
+        <section class="flex gap-5 flex-row">
+        <!-- <section class="flex md:relative gap-10 flex-col md:flex-row"> -->
             <!-- Panel Lateral -->
-            <FilterTemplate @updFilter="applyFiler"/>
+            <!-- <FilterTemplate @updFilter="applyFiler"/> -->
             
             <!-- Resultado de Búsquedas -->                        
             <figure v-show="loading" class="m-auto"><img src="@/assets/images/loader.svg" alt="loading..."></figure>
@@ -13,7 +14,7 @@
                     <span class="text-lg text-white" v-text="errorMessage"></span>
                 </div>
                 <h3 class="text-sky-800 text-2xl" v-if="search">Resultado de búsqueda para {{ search }}</h3>
-                <div class="flex justify-end"><select class="w-24"><option value="">precio</option><option value="">más populares</option></select></div>
+                <!-- <div class="flex justify-end"><select class="w-24"><option value="">precio</option><option value="">más populares</option></select></div> -->
                 <section class="flex flex-wrap gap-5 justify-items-center" v-if="results.length>0">                    
                     <CardListTemplate  v-for="(item, index) in results" :key="index" :item="item" class=""/>                    
                 </section>
@@ -32,7 +33,7 @@
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import CardListTemplate from '@/components/CardListTemplate.vue'
-import FilterTemplate from '@/components/FilterTemplate.vue'
+// import FilterTemplate from '@/components/FilterTemplate.vue'
 import { useRoute } from 'vue-router'
 import { ref,computed,onBeforeMount,watch } from 'vue'
 import { useSearchStore } from '@/store/searchStore'
@@ -75,9 +76,9 @@ onBeforeMount(async () => {
 
 
 
-const applyFiler = () => {
-    alert('filtro aplicado')
-}
+// const applyFiler = () => {
+//     alert('filtro aplicado')
+// }
 
 </script>
 
