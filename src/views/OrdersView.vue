@@ -22,17 +22,7 @@ import bookingService from '@/services/booking.service';
 import {ref,onBeforeMount} from 'vue';
 import Swal from 'sweetalert2';
 
-// import { useCartStore } from '@/store/cartStore'
-
-// const cart = useCartStore()
 const bookings = ref([])
-/* const orders = [
-    {id: 1, fecha: '06/07/2023', estado_entrega: 'entregado', precio: 333},
-    {id: 2, fecha: '06/07/2023', estado_entrega: 'en proceso', precio: 333},
-    {id: 3, fecha: '06/07/2023', estado_entrega: 'transportandose', precio: 333},
-    {id: 4, fecha: '06/07/2023', estado_entrega: 'recibida', precio: 333},
-    ] */
-
 
 onBeforeMount(async () => {
     try {

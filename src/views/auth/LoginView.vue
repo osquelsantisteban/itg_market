@@ -19,13 +19,18 @@
             placeholder="Nombre de usuario">
         </div>
 
-        <div class="mb-5 w-full md:w-8/12">
-          <input class="input_form"
+        <!-- type="password" -->
+        <div class="relative mb-16 w-full md:w-8/12">
+          <input class="input_form absolute"
             id="password" 
-            type="password"
+            :type="(showpass) ? 'text' : 'password'"
             v-model="formLogin.password"          
             placeholder="Escriba la clave">
-          <p class="text-red-600 text-xs italic">Please choose a password.</p>
+            <div class="absolute right-2 top-2 flex items-center gap-x-4">                    
+                <button type="button" @click="showpass=!showpass" v-show="showpass"><i class="fas fa-eye-slash"></i></button>
+                <button type="button" @click="showpass=!showpass" v-show="!showpass"><i class="fas fa-eye"></i></button>                                          
+            </div>
+          <!-- <p class="text-red-600 text-xs italic">Please choose a password.</p> -->
         </div>
 
         <div class="flex items-center justify-between mb-5 w-full md:w-8/12">
@@ -39,7 +44,7 @@
         </div>
 
         <!-- OAuth -->
-        <div class="flex flex-col gap-3 items-center justify-between mb-5 w-full md:w-8/12">
+        <!-- <div class="flex flex-col gap-3 items-center justify-between mb-5 w-full md:w-8/12">
           <button class="flex items-center justify-center w-full px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50">
             <i class="fab fa-google mr-2"></i>
             Iniciar sesión con Google
@@ -48,7 +53,7 @@
             <i class="fab fa-facebook mr-2"></i>
             Iniciar sesión con Facebook
           </button>
-        </div>
+        </div> -->
 
         
         <router-link :to="{name: 'Register'}" class="bg-sky-800 hover:bg-sky-800/80 text-white font-bold py-2 px-4 rounded w-8/12">
@@ -68,6 +73,7 @@ import Swal from 'sweetalert2';
 import router from '@/router';
 
 const authStore = useAuthStore();
+let showpass = ref(false)
 
 const formLogin = ref({
   username: '',
