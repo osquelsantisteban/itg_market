@@ -18,8 +18,7 @@ export const useSearchStore = defineStore('searchStore',{
     actions: {
         // Busca en los todos
         goToSearchView() {
-            router.push({name: 'SearchResult',params:{keyword: this.search}})
-            // alert(`vamos a buscar ${this.search}`)
+            router.push({name: 'SearchResult',params:{keyword: this.search,filter: this.type}})
         },
 
         // getSearch

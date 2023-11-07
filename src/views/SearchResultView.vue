@@ -33,10 +33,10 @@
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import CardListTemplate from '@/components/CardListTemplate.vue'
-// import FilterTemplate from '@/components/FilterTemplate.vue'
 import { useRoute } from 'vue-router'
-import { ref,computed,onBeforeMount,watch } from 'vue'
+import { ref,computed,watch } from 'vue'
 import { useSearchStore } from '@/store/searchStore'
+import Swal from 'sweetalert2';
 
 const loading = ref(true)
 const route = useRoute()
@@ -45,40 +45,33 @@ const searchStore = useSearchStore()
 let error = ref(false)
 let errorMessage = ref('Error al consultar los datos, por favor intente más tarde')
 
-watch(search,  () => {
-    loading.value = true
-    getData()    
-})
-
-
-
 const results = ref([]);
 
 const getData = async () => {
     try {
         results.value = await searchStore.getSearch()
-        if(!results.value){
-            error.value = true
-            throw {msg: 'Error en la búsqueda',error:results.value}
-        }    
-
-        loading.value = false
+        if(!results.value) throw {msg: 'Error en la búsqueda',error:results.value}
 
     } catch (error) {
         console.log(error)
-        throw error
-    }    
+        error.value = true;
+        return Swal.fire({
+            title: 'Error',
+            text: `Error al cargar los datos`,
+            icon: 'error',
+            confirmButtonColor: '#3085d6',                            
+        })
+    }
+    finally{
+        loading.value = false
+    }
 }
 
-onBeforeMount(async () => {
-    await getData()
-})
-
-
-
-// const applyFiler = () => {
-//     alert('filtro aplicado')
-// }
+watch(() => route.params, async () => {
+    loading.value = true
+    await getData();
+    loading.value = false
+}, { immediate: true });
 
 </script>
 

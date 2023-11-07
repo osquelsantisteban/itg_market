@@ -49,7 +49,7 @@ const routes = [
   },
   // SearchResult
   {
-    path: '/search/:keyword',
+    path: '/search/:keyword/:filter',
     name: 'SearchResult',
     component: () => import (/* webpackChunkName: "search" */ '@/views/SearchResultView.vue'),    
     meta: {
@@ -98,7 +98,7 @@ const routes = [
     name: 'ResetPassword',
     component: () => import (/* webpackChunkName: "reset_password" */ '@/views/auth/ResetPasswordView.vue'),    
     meta: {
-      login: true
+      login: false
     }
   },  
   // Not Found

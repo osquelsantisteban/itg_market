@@ -94,10 +94,36 @@ export const useAuthStore = defineStore('authStore',{
         },
         
 
-        whoIsLogin(){
-            let username = VueCookies.get('username');
-            if(username) return username
-            return false
+        async whoIsLogin(){
+            try {
+                
+                // x si no hay token
+                if(!this.token) this.getToken()
+                
+                let id = this.decodeToken().client.id
+                
+                // x si no esta logeado
+                if(!this.is_login && !id) return                
+
+                let url = `/clients/${id}`                
+                
+                const options = {                    
+                    token: this.token,
+                    url,
+                    method: 'get',
+                }
+                
+                const res = await apiService.request(options)
+                                                
+                // hay error
+                if(!res) throw {message: 'Error en login',result: res}
+
+                return res
+
+            } catch (error) {
+                console.log(error)
+                throw {message: 'Error en obtenet los datos de la persona logeado',result: error}
+            }
         },
 
         encryptPass(pass) {

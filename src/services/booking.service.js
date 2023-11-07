@@ -1,16 +1,22 @@
 import { apiService } from "@/services/api.service.js";
-import { useAuthStore } from "@/store/authStore";
+// import { useAuthStore } from "@/store/authStore";
+// import { useRouter } from "vue-router";
 
-const authStore = useAuthStore();
-
+// const authStore = useAuthStore();
+// const router = useRouter()
 
 export const bookingService = {
 
     // all by user
-    async allByUser() {
+    async allByUser(token,is_login, router) {
+        
+        // Si no esta logeado
+        if (!is_login) router.push({ name: 'Login' });
+
+
         let options = {
             url: `/bookings/by-user`,
-            token: authStore.token, 
+            token: token, 
         }
         
         try {
@@ -25,14 +31,19 @@ export const bookingService = {
         }
     },        
 
-    async create(data){
-        let options = {
-            url: `/bookings/create`,
-            token: authStore.token,
-            data: data
-        }
+    async create(data,token){
 
+        // if(!authStore.token) authStore.getToken()
+        
+        let options = {
+            url: `/booking/create`,
+            token: token,
+            method: 'post',
+            data: {data}
+        }
+        console.log(options)
         try {
+
             let res = await apiService.request(options)
             if(!res) throw {msg: 'Error en la solicitud de las create',error: res};
 

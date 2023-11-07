@@ -28,12 +28,9 @@ export const useCartStore = defineStore('cartStore',{
 
         // Suma los precios de un solo tipo de producto
         prodPrice: (state) => (prodId) => {
-            // console.log('state',state.prods)
-            // console.log('prodId',prodId)
-            // console.log('product',product)
             const product = state.prods.find(prod => prod.id === prodId)
             return product ? product.count*product.price : 0
-          }
+        }
     },
     actions: {
         // Add un producto

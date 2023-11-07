@@ -152,10 +152,8 @@
 <script setup>
 
 import MainLayout from '@/layouts/MainLayout.vue';
-// import PanelCart from '@/components/PanelCart.vue';
-// import bookingService from '@/services/booking.service';
 import Swal from 'sweetalert2';
-import { ref,onBeforeMount,watch/*computed,defineExpose */ } from 'vue';
+import { ref,onBeforeMount,watch } from 'vue';
 import useFormValidation  from '@/composables/validation';
 import { ModelSelect } from 'vue-search-select';
 import 'vue-search-select/dist/VueSearchSelect.css';
@@ -163,8 +161,15 @@ import { countriesService } from '@/services/country.service';
 import { provincesService } from '@/services/provinces.service';
 import { citiesService } from '@/services/cities.service';
 import {useAuthStore} from "@/store/authStore"
+import {useCartStore} from "@/store/cartStore"
+import { useRouter } from 'vue-router'
+
+import { productsService } from '@/services/products.service';
+import { bookingService } from '@/services/booking.service';
 
 const authStore = useAuthStore();
+const cartStore = useCartStore();
+const router = useRouter()
 
 const { validateOnlyText,validateOnlyInteger,validatePhone,validateCi,validateEmail } = useFormValidation()
 const errors = ref({})
@@ -194,6 +199,20 @@ const form = ref({
     ci_receiver: '',
     obs: ''
 })
+
+const clearFormData = () => {
+    form.value.name_receiver = '';
+    form.value.last_name_receiver = '';
+    form.value.country_receiver = '';
+    form.value.province_receiver = '';
+    form.value.city_receiver = '';
+    form.value.address_receiver = '';
+    form.value.email_receiver = '';
+    form.value.phone_receiver = '';
+    form.value.postal_code_receiver = '';
+    form.value.ci_receiver = '';
+    form.value.obs = '';
+};
 
 // Cada vez que se cambia la provincia se actualiza el municipio
 const updProvince = async () => {    
@@ -250,90 +269,134 @@ const getDestination = (id) => {
     return countries.value.filter(el => el.value === id)
 }
 
-const getProvince = (id) => {    
-    return provinces.value.filter(el => el.value === id)
-}
-
-const getCity = (id) => {
-    return cities.value.filter(el => el.value === id)
-}
-
-
-
-const sendToBuy = (e) => {
-    e.preventDefault();
-    // console.log(authStore.decodeToken())
-    console.log(authStore.decodeToken().client.name)
-    console.log(authStore.decodeToken().client.email)
-
-    // Solo estos son requeridos
-    let requiredList = [
-            'name_receiver',
-            'last_name_receiver',
-            'email_receiver',
-            'phone_receiver',
-            'province_receiver',
-            'city_receiver',
-            'address_receiver',
-            'ci_receiver'
-    ]
+/* const getDataUser = async () => {
+    try {
+        
+        dataUser.value = await useAuthStore.whoIsLogin()
+        console.log(dataUser.value)
     
-    // si validate fail
-    if(!validateRequired(requiredList)) 
+    } catch (error) {
+        console.log(error)
+        
+    }
+} */
+
+// const getProvince = (id) => {    
+//     return provinces.value.filter(el => el.value === id)
+// }
+
+// const getCity = (id) => {
+//     return cities.value.filter(el => el.value === id)
+// }
+
+
+
+const sendToBuy = async (e) => {
+    e.preventDefault();
+
+    //TODO loading block btn     
+
+    if (!isValidForm()) return;
+
+    try {
+        const data = await createDataForRequest();
+
+        await confirmAndSendRequest(data);
+
+        clearFormData();
+        cartStore.clearAllProducts()
+        setTimeout(()=>{
+            router.push({ name: 'Orders'})
+
+        },5000)
+    } catch (error) {
+        console.log(error);
         return Swal.fire({
+            title: 'Error',
+            text: `Error en la solicitud. Revise los datos introducidos o intente más tarde.`,
+            icon: 'error',
+            confirmButtonColor: '#3085d6',                            
+        });
+    }
+}
+
+const isValidForm = () => {
+    const requiredList = [
+        'name_receiver',
+        'last_name_receiver',
+        'email_receiver',
+        'phone_receiver',
+        'province_receiver',
+        'city_receiver',
+        'address_receiver',
+        'ci_receiver'
+    ];
+
+    if (!validateRequired(requiredList)) {
+        Swal.fire({
             title: 'Validación',
             text: `Error de validación, revise los datos introducidos`,
             icon: 'error',
             confirmButtonColor: '#3085d6',                            
-        })
-        
-    // si validate is OK
-    // console.log('province_receiver',form.value.province_receiver)
-    // console.log(getProvince(form.value.province_receiver))
-    let destinationText = getDestination(form.value.country_receiver) ? getDestination(form.value.country_receiver)[0].text : ''
-    let provinceText    = getProvince(form.value.province_receiver) ? getProvince(form.value.province_receiver)[0].text : ''
-    let cityText        = getCity(form.value.city_receiver) ? getCity(form.value.city_receiver)[0].text : ''
-
-    console.log(destinationText)
-    console.log(provinceText)
-    console.log(cityText)
-    
-    // console.log(authStore.decodeToken())
-    // let data = {
-    //     description: form.value.obs,
-    //     destination: destinationText,
-    //     email: authStore.decodeToken().client.email,
-    //     name: authStore.decodeToken().client.name,
-    //     phone: 'phone',//TODO
-    //     price: 100, //TODO
-    //     product: 'MarketItem',
-    //     deliver: {
-    //         name: form.value.name_receiver,
-    //         lastname: form.value.last_name_receiver,
-    //         dni: form.value.ci_receiver,
-    //         phone: form.value.phone_receiver,
-    //         address: form.value.address_receiver,            
-    //     },
-    //     prod:{
-    //         //TODO
-    //     }
-    // }
-    // console.log(data)
-
-    // bookingService.create(data)
-    
-    // console.log(`Nombre Receptor ${form.value.name_receiver}`)
-    // console.log(`Apellidos Receptor ${form.value.last_name_receiver}`)
-    // console.log(`Email Receptor ${form.value.email_receiver}`)
-    // console.log(`Phone Receptor ${form.value.phone_receiver}`)
-    // console.log(`Address Receptor ${form.value.address_receiver}`)
-    // console.log(`Codigo Postal Receptor ${form.value.postal_code_receiver}`)
-    // console.log(`Country ${form.value.country_receiver}`)
-    // console.log(`Province Receptor ${form.value.province_receiver}`)
-    // console.log(`city Receptor ${form.value.city_receiver}`)
-    // console.log(`ci Receptor ${form.value.ci_receiver}`)
-    // console.log(`Obs ${form.value.obs}`)
+        });
+        return false;
+    }
+    return true;
 }
+
+const createDataForRequest = async () => {
+    let products = await productsService.getProducts(cartStore.prods);
+    products = productsService.mergeCartWithList(products, cartStore.prods);
+
+    let dataUser = await authStore.whoIsLogin();
+    let destinationText = getDestination(form.value.country_receiver) ? getDestination(form.value.country_receiver)[0].text : '';
+
+    return {
+            description: form.value.obs,
+            destination: destinationText,
+            email: dataUser.email,
+            name: dataUser.first_name+' '+dataUser.last_name,
+            phone: dataUser.phone,
+            price: productsService.getTotalPriceOfAllProducts(products).toString(),
+            product: 'MarketItem',
+            deliver: {
+                name: form.value.name_receiver,
+                lastname: form.value.last_name_receiver,
+                dni: form.value.ci_receiver,
+                phone: form.value.phone_receiver,
+                address: form.value.address_receiver,            
+                city_id: form.value.city_receiver,            
+            },
+            prod: productsService.getProductsWithPrice(products)
+        };
+}
+
+const confirmAndSendRequest = async (data) => {
+    await Swal.fire({
+        title: '¿Estás seguro?',
+        text: `Se hara una solicitud de comprar por $ ${data.price} mas la transportación, si está de acuerdo de aceptar, de lo contrario cancelar.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar'
+    })
+    .then(async (result) => {
+        if (result.isConfirmed) {
+            await sendRequest(data);
+            Swal.fire('¡Hecho!', 'Tu acción ha sido completada.', 'success');
+        }
+    })
+    .catch(e=> {throw e});
+}
+
+const sendRequest = async (data) => {
+    await bookingService.create(data,authStore.token);
+}
+
+         
+
 
 </script>
 

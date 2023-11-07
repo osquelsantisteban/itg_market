@@ -2,8 +2,8 @@
     
     <article class="flex border border-gray-300 rounded-lg" :class="{'style-remove': isRemoving }">
         
-        <figure class="flex items-center w-60 h-52 px-1 bg-cover overflow-hidden hover:cursor-pointer" @click="navigateToProduct" v-if="props.item.images[0]">
-            <img :src="props.item.images[0].resources[0].url" alt="" class=" bg-slate-400 ">
+        <figure class="flex items-center w-60 h-52 px-1 bg-cover overflow-hidden hover:cursor-pointer" @click="navigateToProduct" v-if="props.item.images && props.item.images.lenght>0">
+            <img :src="props.item.images[0].resources[0].url" alt="" class=" bg-slate-400 " v-if="props.item.images[0].resources[0].url">
         </figure>
         
         <div class="flex flex-col w-full p-5 border-l border-gray-300">

@@ -107,6 +107,7 @@ const closeSession = () => {
   router.push({ name: 'Login'})
 }
 
+
 </script>
 <style scoped>
 
